@@ -25,7 +25,8 @@ namespace Tabloid
                                         FROM Post p
                                         join category c on p.categoryId = c.id
                                         join userProfile u on p.userProfileId = u.id
-                                        where p.IsApproved = 1 and p.publishDateTime < @now;";
+                                        where p.IsApproved = 1 and p.publishDateTime < @now
+                                        order by p.publishDateTime desc;";
 
                     cmd.Parameters.AddWithValue("now", DateTime.Now);
                     SqlDataReader reader = cmd.ExecuteReader();

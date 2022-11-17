@@ -23,7 +23,7 @@ const PostList = () => {
     <div className="container">
       <div className="row justify-content-center">
         <div className="cards-column">
-          {posts.map((post) => (
+          {posts?.map((post) => (
             <>
               <Post key={post.id} post={post} />
             </>
