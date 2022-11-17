@@ -7,6 +7,7 @@ export default function ApplicationViews() {
  return(
       <Routes>
         <Route path="/" element={<Hello />} />
+        {/* <Route path="/Categories" element={<Categories />} /> */}
       </Routes>
    );
  
