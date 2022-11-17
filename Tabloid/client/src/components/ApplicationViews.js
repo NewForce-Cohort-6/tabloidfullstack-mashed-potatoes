@@ -1,30 +1,18 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Hello from "./Hello";
+import Login from "./Login";
+import Register from "./Register";
+import PostList from "./PostList";
+
 
 export default function ApplicationViews() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
-  useEffect(() => {
-    const localUser = getCurrentUser();
-    
-    if(!localUser) {
-      setIsLoggedIn(false);
-    }
-
-  },[isLoggedIn])
+  
 
  return(
 
-      !isLoggedIn ?
       <Routes>
-          <Route path="/" element={<Hello />} />
-          <Route path="/login" element={ <Login setIsLoggedIn={setIsLoggedIn} /> } />
-          <Route path="/register" element={ <Register setIsLoggedIn={setIsLoggedIn} /> } />
-          <Route path="*" element={<Navigate to="/login"/>} />
-      </Routes>
-      : <Routes>
           <Route path="/" element={<Hello />} />
           <Route path="/posts" element={ <PostList /> } />
           {/* <Route path="/posts/add" element={ <PostForm /> } />

@@ -10,14 +10,14 @@ export const Post = ({ post }) => {
             <strong>{post.title}</strong>
         {/* </Link> */}
         {/* <Link to={`/posts/${post.id}`}> */}
-            <p>{post.UserProfile.DisplayName}</p>
+            <p>{post.userProfile.displayName}</p>
         {/* </Link> */}
-        <p>{post.Category.Name}</p>
+        <p>{post.category.name}</p>
         
         {/* {post?.comments.length ? post?.comments?.map(comment => 
             <p key={comment?.id} className="text-left px-2">Comment: {comment?.message}</p>) : ""} */}
       
-            </CardBody>
+        </CardBody>
 
     </Card>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Post } from './Post';
-import { getUserPostsById } from "../modules/PostManager";
+import { getAllPosts } from "../Managers/PostManager";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -9,7 +9,7 @@ const PostList = () => {
   const userObject = JSON.parse(localUser)
 
   const getPosts = () => {
-    getUserPostsById(userObject.id).then(allPosts => setPosts(allPosts));
+    getAllPosts().then(allPosts => setPosts(allPosts));
   };
 
 
@@ -18,6 +18,8 @@ const PostList = () => {
   }, []);
 
   return (
+    <>
+    <h1>All Posts</h1>
     <div className="container">
       <div className="row justify-content-center">
         <div className="cards-column">
@@ -29,6 +31,7 @@ const PostList = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
