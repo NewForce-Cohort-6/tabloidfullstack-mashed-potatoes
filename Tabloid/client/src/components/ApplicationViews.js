@@ -6,21 +6,18 @@ import Tag from "./tags/TagList";
 
 export default function ApplicationViews() {
 
- return(
+  return (
 
-      <Routes>
-          <Route path="/" element={<Hello />} />
-          <Route path="/posts" element={ <PostList /> } />
-          {/* <Route path="/posts/add" element={ <PostForm /> } />
+    <Routes>
+      <Route path="/" element={<Hello />} />
+      <Route path="/posts" element={<PostList />} />
+      {/* <Route path="/posts/add" element={ <PostForm /> } />
           <Route path="/posts/:id" element={ <PostDetails /> } />
           <Route path="/users/:id" element={ <UserPosts /> } /> */}
-          <Route path="*" element={<p>Whoops, nothing here...</p>} />
-          <Route path="/tag" element={<Tag />} />
-        <Route path="/" element={<Hello />} />
-        <Route path="/tag" element={<Tag />} />
+      <Route path="*" element={<p>Whoops, nothing here...</p>} />
+      <Route path="/tag" element={<Tag />} />
+      <Route path="/Categories" element={<Categories />} />
+    </Routes>
+  );
 
-        <Route path="/Categories" element={<Categories />} />
-      </Routes>
-   );
- 
 }
