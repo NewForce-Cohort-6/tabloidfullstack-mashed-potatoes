@@ -8,6 +8,7 @@ export const PostDetails = () => {
     const [post, setPost] = useState();
     const { id } = useParams();
 
+    //all post image links are broken, so need to replace them all with a default image
     const handleBrokenImage = (image) => {
         const defaultImage = "https://contenthub-static.grammarly.com/blog/wp-content/uploads/2017/11/how-to-write-a-blog-post.jpeg";
         image.target.src = defaultImage;
