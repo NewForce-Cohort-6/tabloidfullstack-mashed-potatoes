@@ -9,7 +9,7 @@ namespace Tabloid.Repositories
     {
 
 
-        List<Category> GetAll();
+        List<Category> GetAllCategories();
         Category GetById(int id);
 
         //void Add(Post post);

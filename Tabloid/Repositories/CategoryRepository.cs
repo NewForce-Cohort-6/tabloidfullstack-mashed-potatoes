@@ -15,7 +15,7 @@ namespace Tabloid.Repositories
 
         public CategoryRepository(IConfiguration configuration) : base(configuration) { }
 
-        public List<Category> GetAll()
+        public List<Category> GetAllCategories()
         {
             using (var conn = Connection)
             {
@@ -36,7 +36,6 @@ namespace Tabloid.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "Name"),
-
                         });
                     }
 
@@ -69,7 +68,6 @@ namespace Tabloid.Repositories
                         {
                             Id = id,
                             Name = DbUtils.GetString(reader, "Name")
-
                         };
                     }
 
