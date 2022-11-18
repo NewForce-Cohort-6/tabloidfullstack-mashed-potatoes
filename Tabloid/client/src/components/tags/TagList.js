@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import Tag from "./Tag";
-import { getAllTags } from "./TagManager";
+import { getAllTags, getById } from "./TagManager";
 
 const TagList = (tag) => {
     const [tags, setTags] = useState([]);
@@ -16,6 +16,9 @@ const TagList = (tag) => {
         getTags();
     }, []);
 
+    const handleDeleteClick = (id) => {
+        getById(id).then((e) => {navigate(`/deleteTag/${id}`)})
+    }
     
     return (
       <div className="container">
@@ -27,11 +30,17 @@ const TagList = (tag) => {
           }} style={{marginTop: '15px', width: '120px'}}
           >New Tag</button>
             <div className="cards-column">
-                
-                {tags.map((c) => (
-                    <Tag key={c.id} tag={c} />
-                    ))}
-        </div>
+                {tags.map((t) => (
+                  <div style={{display: 'flex'}}>
+                    <Tag key={t.id} tag={t} />
+                    <button onClick={(e) => {
+                      handleDeleteClick(t.id)
+                    }} style={{width: '60px', height: '30px', margin: '5px'}}>Delete</button>
+                    {/* <button style={{width: '43px', height: '30px', margin: '5px'}}> Edit </button> */}
+                    </div>
+                ))}
+            
+            </div>
       </div>
     </div>
     )

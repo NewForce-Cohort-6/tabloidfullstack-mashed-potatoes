@@ -36,9 +36,14 @@ namespace Tabloid.Controllers
 
         // GET api/<TagController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetTagById(int id)
         {
-            return "value";
+            var tag = _tagRepo.GetTagById(id);
+            if (tag == null)
+            {
+                return NotFound();
+            }
+            return Ok(tag);
         }
 
         // POST api/<TagController>
@@ -57,8 +62,10 @@ namespace Tabloid.Controllers
 
         // DELETE api/<TagController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _tagRepo.Delete(id);
+            return NoContent();
         }
     }
 }
