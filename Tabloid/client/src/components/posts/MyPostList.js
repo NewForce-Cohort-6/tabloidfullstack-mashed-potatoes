@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Post } from './Post';
-import { getAllPosts } from "../Managers/PostManager";
+import { getUserPostsById } from "../../Managers/PostManager";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -9,7 +9,7 @@ const PostList = () => {
   const userObject = JSON.parse(localUser)
 
   const getPosts = () => {
-    getAllPosts().then(allPosts => setPosts(allPosts));
+    getUserPostsById(userObject.id).then(allPosts => setPosts(allPosts));
   };
 
 
@@ -19,15 +19,15 @@ const PostList = () => {
 
   return (
     <>
-    <h1>All Posts</h1>
+    <h1>My Posts</h1>
     <div className="container">
       <div className="row justify-content-center">
         <div className="cards-column">
-          {posts?.map((post) => (
+          {posts.length > 0 ? posts?.map((post) => (
             <>
               <Post key={post.id} post={post} />
             </>
-          ))}
+          )) : <p>No posts yet</p>}
         </div>
       </div>
     </div>
