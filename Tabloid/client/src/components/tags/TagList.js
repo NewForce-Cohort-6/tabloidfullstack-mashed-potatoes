@@ -22,10 +22,10 @@ const TagList = (tag) => {
         <div className="row justify-content-center" style={{display: 'flex', flexDirection: 'column'}}>
           <h4 style={{marginTop: '20px'}}>Tags</h4>
           <h5 style={{ marginRight: '15px' }}>{tag.name}</h5>
-          {/* <button onClick={(e) => {
-            navigate('/createCategory')
+          <button onClick={(e) => {
+            navigate('/createTag')
           }} style={{marginTop: '15px', width: '120px'}}
-          >New Category</button> */}
+          >New Tag</button>
             <div className="cards-column">
                 
                 {tags.map((c) => (
