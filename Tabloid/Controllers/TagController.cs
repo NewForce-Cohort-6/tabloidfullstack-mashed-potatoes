@@ -43,8 +43,10 @@ namespace Tabloid.Controllers
 
         // POST api/<TagController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Add(Tag tag)
         {
+            _tagRepo.Add(tag);
+            return CreatedAtAction("Get", new { id = tag.Id }, tag);
         }
 
         // PUT api/<TagController>/5
