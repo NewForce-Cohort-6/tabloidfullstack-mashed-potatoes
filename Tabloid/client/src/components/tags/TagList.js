@@ -41,7 +41,7 @@ const TagList = (tag) => {
                 ))}
             
             </div>
-      </div>
+        </div>
     </div>
     )
 }
