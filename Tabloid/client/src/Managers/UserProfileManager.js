@@ -1,6 +1,8 @@
+  export const getCurrentUser = () => {
+    const currentUser = localStorage.getItem("gifterUser");
 
-
-
+    return currentUser;
+  };
 
 
   const apiUrl = "https://localhost:5001";
