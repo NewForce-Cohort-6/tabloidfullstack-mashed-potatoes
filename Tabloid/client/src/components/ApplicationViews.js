@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Hello from "./Hello";
-import Login from "./Login";
-import Register from "./Register";
 import PostList from "./PostList";
-
+import Tag from "./tags/TagList";
 
 export default function ApplicationViews() {
-
-  
 
  return(
 
@@ -19,6 +15,7 @@ export default function ApplicationViews() {
           <Route path="/posts/:id" element={ <PostDetails /> } />
           <Route path="/users/:id" element={ <UserPosts /> } /> */}
           <Route path="*" element={<p>Whoops, nothing here...</p>} />
+          <Route path="/tag" element={<Tag />} />
       </Routes>
    );
  
