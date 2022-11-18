@@ -20,7 +20,8 @@ export const deleteTag = (id) => {
   }
   
   export const getById = (id) => {
-    return fetch(`https://localhost:5001/api/Tag/${id}`).then((res) => res.json());
+    return fetch(`https://localhost:5001/api/Tag/${id}`)
+    .then((res) => res.json());
   }
 
   export const editTag = (tag) => {
