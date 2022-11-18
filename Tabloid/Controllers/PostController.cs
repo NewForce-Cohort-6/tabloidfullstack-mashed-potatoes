@@ -46,12 +46,12 @@ namespace Tabloid
         //    return Ok(posts);
         //}
 
-        //[HttpGet("GetUserPostsById")]
-        //public IActionResult GetUserPostsById(int id)
-        //{
-        //    var posts = _postRepository.GetUserPostsById(id);
-        //    return Ok(posts);
-        //}
+        [HttpGet("GetUserPostsById")]
+        public IActionResult GetUserPostsById(int id)
+        {
+            var posts = _postRepository.GetByUser(id);
+            return Ok(posts);
+        }
 
         //[HttpPost]
         //public IActionResult Post(Post post)
