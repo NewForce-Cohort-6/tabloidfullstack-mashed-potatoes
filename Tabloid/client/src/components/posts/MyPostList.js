@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Post } from './Post';
-import { getAllPosts } from "../Managers/PostManager";
+import { getUserPostsById } from "../../Managers/PostManager";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -9,7 +9,7 @@ const PostList = () => {
   const userObject = JSON.parse(localUser)
 
   const getPosts = () => {
-    getAllPosts().then(allPosts => setPosts(allPosts));
+    getUserPostsById(userObject.id).then(allPosts => setPosts(allPosts));
   };
 
 
