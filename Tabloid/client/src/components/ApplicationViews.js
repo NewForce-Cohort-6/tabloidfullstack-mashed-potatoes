@@ -22,6 +22,7 @@ export default function ApplicationViews() {
           <Route path="/posts/:id" element={ <PostDetails /> } />
           <Route path="/users/:id" element={ <UserPosts /> } /> */}
       <Route path="/categories" element={<CategoryList />} />
+      <Route path="/categories" element={<CreateCategory />} />
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
 
     </Routes>

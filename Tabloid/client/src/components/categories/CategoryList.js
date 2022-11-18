@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Category } from './Category';
 import { getAllCategories } from "../../Managers/CategoryManager";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
+
+  const navigate = useNavigate();
 
   const localUser = localStorage.getItem("userProfile")
   const userObject = JSON.parse(localUser)
@@ -11,7 +14,6 @@ const CategoryList = () => {
   const getCategories = () => {
     getAllCategories().then(allCategories => setCategories(allCategories));
   };
-
 
   useEffect(() => {
     getCategories();
