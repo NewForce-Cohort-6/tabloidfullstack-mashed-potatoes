@@ -7,6 +7,11 @@ import { getPost } from "../../Managers/PostManager";
 export const PostDetails = () => {
     const [post, setPost] = useState();
     const { id } = useParams();
+
+    const handleBrokenImage = (image) => {
+        const defaultImage = "https://contenthub-static.grammarly.com/blog/wp-content/uploads/2017/11/how-to-write-a-blog-post.jpeg";
+        image.target.src = defaultImage;
+    };
     
     useEffect(() => {
         getPost(id).then(setPost);
@@ -23,8 +28,8 @@ export const PostDetails = () => {
             {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}</p>
             {/* </Link> */}
-            <p>Published: {post.publicationDateTime}</p>
-            <img src={post.imageLocation} alt={post.title}></img>
+            <p>Published: {post.publishDateTime.substring(0, 10)}</p>
+            <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
             <p>{post.content}</p>
             
             {/* {post?.comments.length ? post?.comments?.map(comment => 
