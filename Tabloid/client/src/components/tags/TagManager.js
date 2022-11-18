@@ -12,3 +12,13 @@ export const addTag = (tag) => {
         body: JSON.stringify(tag),
       })
 };
+
+export const deleteTag = (id) => {
+    return fetch(`https://localhost:5001/api/Tag/${id}`, {
+      method: "DELETE"
+    })
+  }
+  
+  export const getById = (id) => {
+    return fetch(`https://localhost:5001/api/Tag/${id}`).then((res) => res.json());
+  }
