@@ -19,15 +19,15 @@ const PostList = () => {
 
   return (
     <>
-    <h1>All Posts</h1>
+    <h1>My Posts</h1>
     <div className="container">
       <div className="row justify-content-center">
         <div className="cards-column">
-          {posts?.map((post) => (
+          {posts.length > 0 ? posts?.map((post) => (
             <>
               <Post key={post.id} post={post} />
             </>
-          ))}
+          )) : <p>No posts yet</p>}
         </div>
       </div>
     </div>
