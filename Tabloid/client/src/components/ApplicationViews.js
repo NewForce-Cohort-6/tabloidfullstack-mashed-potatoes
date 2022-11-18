@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Hello from "./Hello";
-import PostList from "./PostList";
+import PostList from "./posts/PostList";
+import MyPostList from "./posts/MyPostList";
+import { PostDetails } from "./posts/PostDetails";
 import Tag from "./tags/TagList";
 import TagForm from "./tags/TagForm";
 import TagDelete from "./tags/TagDelete";
 import TagEdit from "./tags/TagEdit";
 import UserProfileList from "./userProfiles/UserProfileList";
+import CategoryList from "./categories/CategoryList";
 
 export default function ApplicationViews() {
 
@@ -21,10 +24,12 @@ export default function ApplicationViews() {
 
 
         <Route path="/posts" element={ <PostList /> } />
-          {/* <Route path="/posts/add" element={ <PostForm /> } />
-          <Route path="/posts/:id" element={ <PostDetails /> } />
-          <Route path="/users/:id" element={ <UserPosts /> } /> */}
-          <Route path="*" element={<p>Whoops, nothing here...</p>} />
+        <Route path="/myposts" element={ <MyPostList /> } />
+        <Route path="/posts/:id" element={ <PostDetails /> } />
+        {/* <Route path="/posts/add" element={ <PostForm /> } />
+        <Route path="/users/:id" element={ <UserPosts /> } /> */}
+        <Route path="/categories" element={<CategoryList />} />
+        <Route path="*" element={<p>Whoops, nothing here...</p>} />
           
       </Routes>
    );
