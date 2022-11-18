@@ -6,9 +6,9 @@ export const Post = ({ post }) => {
   return (
     <Card className="m-4">
       <CardBody>
-        {/* <Link to={`/posts/${post.id}`}> */}
+        <Link to={`/posts/${post.id}`}>
             <strong>{post.title}</strong>
-        {/* </Link> */}
+        </Link>
         {/* <Link to={`/posts/${post.id}`}> */}
             <p>Author: {post.userProfile.displayName}</p>
         {/* </Link> */}

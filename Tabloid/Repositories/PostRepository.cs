@@ -61,80 +61,52 @@ namespace Tabloid
             }
         }
 
-        //public Post Get(int id)
-        //{
-        //    using (SqlConnection conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (SqlCommand cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"SELECT p.id,
-        //                                       p.Title As PostTitle,
-        //                                       p.URL AS PostUrl,
-        //                                       p.PublishDateTime,
-        //                                       p.AuthorId,
-        //                                       p.BlogId,
-        //                                       t.Id as TagId,
-        //                                       t.Name,
-        //                                       a.FirstName,
-        //                                       a.LastName,
-        //                                       a.Bio,
-        //                                       b.Title AS BlogTitle,
-        //                                       b.URL AS BlogUrl
-        //                                  FROM Post p 
-        //                                       LEFT JOIN Author a ON p.AuthorId = a.Id
-        //                                       LEFT JOIN Blog b ON p.BlogId = b.Id 
-        //                                       LEFT JOIN PostTag pt ON p.Id = pt.PostId
-        //                                       LEFT JOIN Tag t ON t.Id = pt.TagId
-        //                                  WHERE p.id = @id";
-        //            cmd.Parameters.AddWithValue("id", id);
-        //            SqlDataReader reader = cmd.ExecuteReader();
+        public Post GetById(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT p.id, p.Title, p.Content, p.ImageLocation, p.PublishDateTime,
+                                            p.CreateDateTime, p.isApproved, p.categoryId, p.userProfileId,
 
-        //            Post post = null;
+                                            c.name as CategoryName, u.DisplayName
+                                        FROM Post p
+                                        join category c on p.categoryId = c.id
+                                        join userProfile u on p.userProfileId = u.id
+                                        where p.id = @id";
+                    cmd.Parameters.AddWithValue("id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-        //            while (reader.Read())
-        //            {
-        //                if (post == null)
-        //                {
-        //                    post = new Post()
-        //                    {
-        //                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
-        //                        Title = reader.GetString(reader.GetOrdinal("PostTitle")),
-        //                        Url = reader.GetString(reader.GetOrdinal("PostUrl")),
-        //                        PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime")),
-        //                        Author = new Author()
-        //                        {
-        //                            Id = reader.GetInt32(reader.GetOrdinal("AuthorId")),
-        //                            FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-        //                            LastName = reader.GetString(reader.GetOrdinal("LastName")),
-        //                            Bio = reader.GetString(reader.GetOrdinal("Bio")),
-        //                        },
-        //                        Blog = new Blog()
-        //                        {
-        //                            Id = reader.GetInt32(reader.GetOrdinal("BlogId")),
-        //                            Title = reader.GetString(reader.GetOrdinal("BlogTitle")),
-        //                            Url = reader.GetString(reader.GetOrdinal("BlogUrl")),
-        //                        }
-        //                    };
-        //                }
+                    Post post = null;
 
-        //                if (!reader.IsDBNull(reader.GetOrdinal("TagId")))
-        //                {
-        //                    post.Tags.Add(new Tag()
-        //                    {
-        //                        Id = reader.GetInt32(reader.GetOrdinal("TagId")),
-        //                        Name = reader.GetString(reader.GetOrdinal("Name")),
-        //                    });
-        //                }
-        //            }
+                    if (reader.Read())
+                    {
+                        post = new Post()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Title = reader.GetString(reader.GetOrdinal("Title")),
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            ImageLocation = reader.GetString(reader.GetOrdinal("Content")),
+                            PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime")),
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                            IsApproved = reader.GetBoolean(reader.GetOrdinal("isApproved")),
+                            CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                            UserProfile = new UserProfile(),
+                            Category = new Category()
+                        };
+                        post.UserProfile.DisplayName = reader.GetString(reader.GetOrdinal("DisplayName"));
+                        post.Category.Name = reader.GetString(reader.GetOrdinal("CategoryName"));
+                    }
 
-        //            reader.Close();
+                    reader.Close();
 
-        //            return post;
-
-        //        }
-        //    }
-        //}
+                    return post;
+                }
+            }
+        }
 
         public List<Post> GetByUser(int userId)
         {
