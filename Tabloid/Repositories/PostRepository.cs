@@ -159,25 +159,34 @@ namespace Tabloid
             }
         }
 
-        //public void Insert(Post post)
-        //{
-        //    using (SqlConnection conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (SqlCommand cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"INSERT INTO Post (Title, URL, PublishDateTime, AuthorId, BlogId)
-        //                                       VALUES (@title, @url, @publishDateTime, @authorId, @blogId)";
-        //            cmd.Parameters.AddWithValue("@title", post.Title);
-        //            cmd.Parameters.AddWithValue("@url", post.Url);
-        //            cmd.Parameters.AddWithValue("@publishDateTime", post.PublishDateTime);
-        //            cmd.Parameters.AddWithValue("@authorId", post.Author.Id);
-        //            cmd.Parameters.AddWithValue("@blogId", post.Blog.Id);
+        public void Insert(Post post)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Post (
+                            Title, Content, ImageLocation, CreateDateTime, PublishDateTime,
+                            IsApproved, CategoryId, UserProfileId )
+                        OUTPUT INSERTED.ID
+                        VALUES (
+                            @Title, @Content, @ImageLocation, @CreateDateTime, @PublishDateTime,
+                            @IsApproved, @CategoryId, @UserProfileId )";
+                    cmd.Parameters.AddWithValue("@Title", post.Title);
+                    cmd.Parameters.AddWithValue("@Content", post.Content);
+                    cmd.Parameters.AddWithValue("@ImageLocation", post.ImageLocation);
+                    cmd.Parameters.AddWithValue("@CreateDateTime", post.CreateDateTime);
+                    cmd.Parameters.AddWithValue("@PublishDateTime", post.PublishDateTime);
+                    cmd.Parameters.AddWithValue("@IsApproved", post.IsApproved);
+                    cmd.Parameters.AddWithValue("@CategoryId", post.CategoryId);
+                    cmd.Parameters.AddWithValue("@UserProfileId", post.UserProfileId);
 
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
+                    post.Id = (int) cmd.ExecuteScalar();
+                }
+            }
+        }
 
         //public void Update(Post post)
         //{
