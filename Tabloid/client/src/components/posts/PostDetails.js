@@ -30,6 +30,7 @@ export const PostDetails = () => {
                 <p>Author: {post.userProfile.displayName}</p>
             {/* </Link> */}
             <p>Published: {post.publishDateTime.substring(0, 10)}</p>
+            <button>Manage Tags</button>
             <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
             <p>{post.content}</p>
             
