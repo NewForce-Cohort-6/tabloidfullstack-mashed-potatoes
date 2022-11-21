@@ -179,7 +179,10 @@ namespace Tabloid
                     cmd.Parameters.AddWithValue("@Content", post.Content);
                     cmd.Parameters.AddWithValue("@ImageLocation", post.ImageLocation);
                     cmd.Parameters.AddWithValue("@CreateDateTime", DateTime.Now);
-
+                    
+                    //when the user does not enter a date, the fetch call sends post.PublishDateTime as "1/1/1000..." which C# 
+                    //doesn't recognize
+                    //when a user doesn't enter a publication date, I'm interpretting that they want it published immediately
                     object published = post.PublishDateTime < DateTime.Parse("1/1/1753") ? DateTime.Now : post.PublishDateTime;
 
                     DbUtils.AddParameter(cmd, "@PublishDateTime", published);
