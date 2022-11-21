@@ -8,20 +8,22 @@ import Tag from "./tags/TagList";
 import TagForm from "./tags/TagForm";
 import TagDelete from "./tags/TagDelete";
 import TagEdit from "./tags/TagEdit";
+import UserProfileList from "./userProfiles/UserProfileList";
 import CategoryList from "./categories/CategoryList";
 import PostForm from "./posts/PostForm";
+import CategoryForm from "./categories/CategoryForm";
 
 export default function ApplicationViews() {
 
  return(
       <Routes>
+
         <Route path="/" element={<Hello />} />
         <Route path="/tag" element={<Tag />} />
         <Route path="/createTag" element={<TagForm />} />
         <Route path="/deleteTag/:id" element={<TagDelete />} />
         <Route path="/editTag/:id" element={<TagEdit />} />
-
-
+        <Route path="/users" element={<UserProfileList />} />
         <Route path="/posts" element={ <PostList /> } />
         <Route path="/myposts" element={ <MyPostList /> } />
         <Route path="/createPost" element={ <PostForm /> } />
@@ -29,6 +31,7 @@ export default function ApplicationViews() {
         {/* <Route path="/posts/add" element={ <PostForm /> } />
         <Route path="/users/:id" element={ <UserPosts /> } /> */}
         <Route path="/categories" element={<CategoryList />} />
+        <Route path="/createCategory" element={<CategoryForm />} />
         <Route path="*" element={<p>Whoops, nothing here...</p>} />
           
       </Routes>
