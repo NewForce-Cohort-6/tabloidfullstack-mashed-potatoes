@@ -28,6 +28,9 @@ namespace Tabloid
 
         public UserProfile UserProfile { get; set; }
         public Category Category { get; set; }
+        public Tag Tag { get; set; }
+        public int PostId { get; set; }
+        public int TagId { get; set; }
 
 
         //public List<Comment> Comments { get; set; }

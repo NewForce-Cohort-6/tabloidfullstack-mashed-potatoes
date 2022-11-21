@@ -20,35 +20,41 @@ namespace Tabloid.Controllers
         }
 
         // GET: api/<PostTagController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_postTagRepo.GetAllPostTags());
+        }
 
         // GET api/<PostTagController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetById(int id)
         {
-            return "value";
-        }
-
-        // POST api/<PostTagController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<PostTagController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PostTagController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var postTag = _postTagRepo.GetPostTagById(id);
+            if (postTag == null)
+            {
+                return NotFound();
+            }
+            return Ok(postTag);
         }
     }
+
+        // POST api/<PostTagController>
+        //[HttpPost]
+        //public void Post([FromBody] string value)
+        //{
+        //}
+
+        // PUT api/<PostTagController>/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
+
+        // DELETE api/<PostTagController>/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
+    
 }

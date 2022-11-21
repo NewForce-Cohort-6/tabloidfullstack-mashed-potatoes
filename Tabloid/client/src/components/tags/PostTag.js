@@ -1,19 +1,39 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { getById, getAllTags, addPostTag } from "./TagManager";
+import Tag from "./Tag";
 
-const postTag = () => {
+const PostTag = (tag) => {
     const {id} = useParams();
     const navigate = useNavigate();
+    const [tags, setTags] = useState([]);
+
+    // const addTags = () => {
+    //     const newTag = {
+    //         name: chosenTag.name,
+    //         id: chosenTag.id
+    //     }
+    //     console.log(newTag)
+    //     addPostTag(newTag).then((e) => {
+    //         navigate('/tag')
+    //     })
+    // }
 
     const handleAddClick = (id) => {
         getById(id).then((e) => {navigate(`/posts/${id}`)})
     }
+    const getTags = () => {
+        getAllTags().then( all => setTags(all))
+    };
+    useEffect(() => {
+        getTags();
+    }, []);
 
     return (
         <div className="container">
         <div className="row justify-content-center" style={{display: 'flex', flexDirection: 'column'}}>
-          <h4 style={{marginTop: '20px'}}>Tags</h4>
+          <h4 style={{marginTop: '20px'}}>Add Tags</h4>
           <h5 style={{ marginRight: '15px' }}>{tag.name}</h5>
           
             <div className="cards-column">
@@ -33,4 +53,4 @@ const postTag = () => {
 
     );
 }
-export default postTag;
+export default PostTag;
