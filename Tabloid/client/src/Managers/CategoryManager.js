@@ -8,7 +8,7 @@ export const getAllCategories = () => {
 };
 
 export const getById = (id) => {  //http GET by id parameter 
-    return fetch(`/api/category/GetAllCategories/${id}`)
+    return fetch(`https://localhost:5001/api/Category/${id}`)
         .then((res) => res.json());
 };
 

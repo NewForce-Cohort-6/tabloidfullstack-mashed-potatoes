@@ -31,7 +31,7 @@ export default function ApplicationViews() {
         <Route path="/users/:id" element={ <UserPosts /> } /> */}
         <Route path="/categories" element={<CategoryList />} />
         <Route path="/createCategory" element={<CategoryForm />} />
-        <Route path="/deleteCategory" element={<CategoryDelete />} />
+        <Route path="/deleteCategory/:id" element={<CategoryDelete />} />
         <Route path="*" element={<p>Whoops, nothing here...</p>} />
           
       </Routes>
