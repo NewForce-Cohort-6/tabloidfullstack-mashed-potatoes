@@ -193,7 +193,7 @@ namespace Tabloid
             }
         }        
 
-            //public void Update(Post post)
+        //public void Update(Post post)
             //{
             //    using (SqlConnection conn = Connection)
             //    {
