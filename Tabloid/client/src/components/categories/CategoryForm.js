@@ -17,19 +17,19 @@ const CategoryForm = () => {
         }
 
         addCategory(newCategory).then((p) => {
-         navigate("/Category");
+         navigate("/categories");
 });
     }
 
     return (
         <div style={{margin: '50px'}}>
-        <h1 style={{marginBottom: '25px'}}>Create Category</h1>
+        
         
         <fieldset>
             <input
              style={{marginBottom: '10px'}}
               type="text"
-              placeholder="Name"
+              placeholder="Category"
               onChange={(event) => {
                 setName(event.target.value);
               }}

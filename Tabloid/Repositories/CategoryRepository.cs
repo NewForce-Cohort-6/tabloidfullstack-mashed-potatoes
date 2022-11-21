@@ -89,7 +89,7 @@ namespace Tabloid.Repositories
                         OUTPUT INSERTED.ID
                         VALUES (@Name)";
 
-                    DbUtils.AddParameter(cmd, "@Title", category.Name);
+                    DbUtils.AddParameter(cmd, "@Name", category.Name);
                     
                     category.Id = (int)cmd.ExecuteScalar();
                 }

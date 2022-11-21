@@ -22,6 +22,11 @@ const CategoryList = () => {
   return (
     <>
     <h1>Categories</h1>
+    <h1 style={{marginBottom: '25px'}}>Create Category</h1>
+    <button onClick={(e) => {
+            navigate('/createCategory')
+          }} style={{marginTop: '15px', width: '120px'}}
+          >New Category</button>
     <div className="container">
       <div className="row justify-content-center">
         <div className="cards-column">

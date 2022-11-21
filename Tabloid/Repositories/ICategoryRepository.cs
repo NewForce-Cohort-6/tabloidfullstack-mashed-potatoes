@@ -14,6 +14,6 @@ namespace Tabloid.Repositories
 
         void Add(Category category);
         //void Delete(int id);
-        //void Update(Post post);
+        //void Update(Category category);
     }
 }
