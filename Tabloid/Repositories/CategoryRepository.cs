@@ -7,6 +7,7 @@ using Tabloid.Utils;
 using Microsoft.Extensions.Hosting;
 using Tabloid.Repositories;
 using System.Reflection.PortableExecutable;
+using Microsoft.Data.SqlClient;
 
 namespace Tabloid.Repositories
 {
@@ -92,6 +93,25 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@Name", category.Name);
                     
                     category.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE FROM Category
+                            WHERE Id = @id
+                        ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
