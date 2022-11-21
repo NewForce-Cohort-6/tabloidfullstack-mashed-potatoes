@@ -10,8 +10,8 @@ export const PostForm = () => {
     */
     const [post, update] = useState({
         Title: "",
-        Caption: "",
-        ImageUrl: ""
+        Content: "",
+        ImageLocation: ""
     })
 
     const [categories, setCategories] = useState([])
@@ -22,7 +22,7 @@ export const PostForm = () => {
 
     const navigate = useNavigate()
 
-    const localUser = localStorage.getItem("gifterUser")
+    const localUser = localStorage.getItem("userProfile")
     const userObject = JSON.parse(localUser)
 
     //let categoryHtml = ""
@@ -42,10 +42,12 @@ export const PostForm = () => {
             PublishDateTime: post.PublishDateTime
         }
 
-        addPost(newPost).then((p) => {
-            // Navigate the user back to the home route
-            navigate(`/posts/${newPost.id}`);
-        })
+        addPost(newPost)
+            .then(r => r.json())
+            .then(p => {
+                debugger
+                navigate(`/posts/${p.id}`)
+            })
     }
 
     

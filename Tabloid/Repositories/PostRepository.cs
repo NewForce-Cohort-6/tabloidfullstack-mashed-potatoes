@@ -4,6 +4,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Tabloid.Models;
 using Tabloid.Repositories;
+using Tabloid.Utils;
 
 namespace Tabloid
 {
@@ -179,28 +180,18 @@ namespace Tabloid
                     cmd.Parameters.AddWithValue("@ImageLocation", post.ImageLocation);
                     cmd.Parameters.AddWithValue("@CreateDateTime", DateTime.Now);
 
-                    cmd.Parameters.AddWithValue("@PublishDateTime", DateOrDBNull(post.PublishDateTime.ToString()));                    
+                    object published = post.PublishDateTime < DateTime.Parse("1/1/1753") ? DateTime.Now : post.PublishDateTime;
+
+                    DbUtils.AddParameter(cmd, "@PublishDateTime", published);
 
                     cmd.Parameters.AddWithValue("@IsApproved", true);
                     cmd.Parameters.AddWithValue("@CategoryId", post.CategoryId);
                     cmd.Parameters.AddWithValue("@UserProfileId", post.UserProfileId);
 
-                    post.Id = (int) cmd.ExecuteScalar();
+                    post.Id = (int)cmd.ExecuteScalar();
                 }
             }
-        }
-
-        public static object DateOrDBNull(string value)
-        {
-            if (String.IsNullOrEmpty(value))
-            {
-                return DateTime.Now;
-            }
-            else
-            {
-                return DateTime.Parse(value);
-            }
-        }
+        }        
 
             //public void Update(Post post)
             //{
