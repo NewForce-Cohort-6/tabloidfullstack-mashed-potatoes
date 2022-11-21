@@ -1,6 +1,7 @@
-import { useState } from "react"
-import { addPost } from "../modules/PostManager";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { getAllCategories } from "../../Managers/CategoryManager";
+import { addPost } from "../../Managers/PostManager";
 
 export const PostForm = () => {
     /*
@@ -13,16 +14,20 @@ export const PostForm = () => {
         ImageUrl: ""
     })
 
-    const [categories, setCategories] = useState({})
+    const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        getAllCategories(id).then(setCategories);
+        getAllCategories().then(setCategories);
     }, []);
 
     const navigate = useNavigate()
 
     const localUser = localStorage.getItem("gifterUser")
     const userObject = JSON.parse(localUser)
+
+    //let categoryHtml = ""
+    //document.getElementById("categories"). innerHTML = categoryHtml;
+
 
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
@@ -33,17 +38,17 @@ export const PostForm = () => {
             Content: post.Content,
             ImageLocation: post.ImageLocation,
             UserProfileId: userObject.id,
-            CategoryId: post.CategoryId
+            CategoryId: post.CategoryId,
+            PublishDateTime: post.PublishDateTime
         }
 
         addPost(newPost).then((p) => {
             // Navigate the user back to the home route
-            navigate("/");
+            navigate(`/posts/${newPost.id}`);
         })
     }
 
-    let categoryHtml = ""
-
+    
     return (
         <form className="postForm">
             <h2 className="postForm__Title">New Post</h2>
@@ -70,7 +75,7 @@ export const PostForm = () => {
                         required autoFocus
                         type="text"
                         className="form-control"
-                        placeholder="Short caption"
+                        placeholder="Post content"
                         value={post.Content}
                         onChange={(changeEvent) => {
                             const copy = {...post}
@@ -83,7 +88,7 @@ export const PostForm = () => {
                 <div className="form-group">
                     <label htmlFor="ImageLocation">Header Image URL:</label>
                     <input
-                        required autoFocus
+                        autoFocus
                         type="text"
                         className="form-control"
                         placeholder="www.example.com"
@@ -97,19 +102,30 @@ export const PostForm = () => {
             </fieldset>   
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="category"></label>
-                    <select className="form-control" 
+                    <label htmlFor="category">Category</label>
+                    <select required className="form-control" 
                             value={post.CategoryId} 
                             onChange={(changeEvent) => {
                                 const copy = {...post}
                                 copy.CategoryId = changeEvent.target.value
                                 update(copy)
                             }}>
-                        <option value={0}>Category: </option>
-                        {categories.forEach(c => {                            
-                            categoryHtml += <option value="c.Id">c.Name</option>
-                        }).join()}
+                        <option value="0">Choose a category</option>
+                        {categories?.map(c => <option value={c.id}>{c.name}</option>)}
                     </select>
+                </div>         
+            </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="publishDateTime">Publish Date</label>
+                    <input className="form-control" 
+                            type="date"
+                            value={post.PublishDateTime} 
+                            onChange={(changeEvent) => {
+                                const copy = {...post}
+                                copy.PublishDateTime = changeEvent.target.value
+                                update(copy)
+                            }}/>
                 </div>         
             </fieldset>
             <button onClick={(clickEvent) => {handleSaveButtonClick(clickEvent)}} className="btn btn-primary">

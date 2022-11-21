@@ -177,9 +177,19 @@ namespace Tabloid
                     cmd.Parameters.AddWithValue("@Title", post.Title);
                     cmd.Parameters.AddWithValue("@Content", post.Content);
                     cmd.Parameters.AddWithValue("@ImageLocation", post.ImageLocation);
-                    cmd.Parameters.AddWithValue("@CreateDateTime", post.CreateDateTime);
-                    cmd.Parameters.AddWithValue("@PublishDateTime", post.PublishDateTime);
-                    cmd.Parameters.AddWithValue("@IsApproved", post.IsApproved);
+                    cmd.Parameters.AddWithValue("@CreateDateTime", DateTime.Now);
+
+                    if (String.IsNullOrEmpty(post.PublishDateTime.ToString()))
+                    {
+                        cmd.Parameters.AddWithValue("@PublishDateTime", DateTime.Now);
+                    } 
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@PublishDateTime", DateTime.Parse(post.PublishDateTime.ToString()));
+
+                    }
+
+                    cmd.Parameters.AddWithValue("@IsApproved", true);
                     cmd.Parameters.AddWithValue("@CategoryId", post.CategoryId);
                     cmd.Parameters.AddWithValue("@UserProfileId", post.UserProfileId);
 
