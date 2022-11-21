@@ -40,5 +40,10 @@ namespace Tabloid.Controllers
                 new { email = userProfile.Email },
                 userProfile);
         }
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            return Ok(_userRepository.GetAll());
+        }
     }
 }
