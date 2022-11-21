@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addTag } from "./TagManager";
+import { addCategory } from "../../Managers/CategoryManager";
 import { useNavigate } from "react-router-dom";
 
 
@@ -16,7 +16,7 @@ const CategoryForm = () => {
             name: name,
         }
 
-        addTag(newCategory).then((p) => {
+        addCategory(newCategory).then((p) => {
          navigate("/Category");
 });
     }
