@@ -19,6 +19,9 @@ const TagList = (tag) => {
     const handleDeleteClick = (id) => {
         getById(id).then((e) => {navigate(`/deleteTag/${id}`)})
     }
+    const handleEditClick = (id) => {
+        getById(id).then((e) => {navigate(`/editTag/${id}`)})
+    }
     
     return (
       <div className="container">
@@ -36,7 +39,9 @@ const TagList = (tag) => {
                     <button onClick={(e) => {
                       handleDeleteClick(t.id)
                     }} style={{width: '60px', height: '30px', margin: '5px'}}>Delete</button>
-                    {/* <button style={{width: '43px', height: '30px', margin: '5px'}}> Edit </button> */}
+                    <button onClick={(e) => {
+                      handleEditClick(t.id)
+                    }}style={{width: '43px', height: '30px', margin: '5px'}}> Edit </button>
                     </div>
                 ))}
             

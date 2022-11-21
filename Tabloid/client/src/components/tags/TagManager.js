@@ -20,5 +20,16 @@ export const deleteTag = (id) => {
   }
   
   export const getById = (id) => {
-    return fetch(`https://localhost:5001/api/Tag/${id}`).then((res) => res.json());
+    return fetch(`https://localhost:5001/api/Tag/${id}`)
+    .then((res) => res.json());
   }
+
+  export const editTag = (tag) => {
+    return fetch(`https://localhost:5001/api/Tag/${tag.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tag),
+      }).then((res) => res.json())
+};
