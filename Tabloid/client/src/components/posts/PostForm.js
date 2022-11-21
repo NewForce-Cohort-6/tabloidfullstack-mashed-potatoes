@@ -99,7 +99,7 @@ export const PostForm = () => {
                 <div className="form-group">
                     <label htmlFor="category"></label>
                     <select className="form-control" 
-                            value={post.ImageLocation} 
+                            value={post.CategoryId} 
                             onChange={(changeEvent) => {
                                 const copy = {...post}
                                 copy.CategoryId = changeEvent.target.value
