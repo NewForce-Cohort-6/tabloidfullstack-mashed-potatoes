@@ -53,13 +53,12 @@ namespace Tabloid
             return Ok(posts);
         }
 
-        //[HttpPost]
-        //public IActionResult Post(Post post)
-        //{
-        //    post.DateCreated = DateTime.Now;
-        //    _postRepository.Add(post);
-        //    return CreatedAtAction("Get", new { id = post.Id }, post);
-        //}
+        [HttpPost]
+        public IActionResult Post(Post post)
+        {
+            _postRepository.Insert(post);
+            return CreatedAtAction("Get", new { id = post.Id }, post);
+        }
 
         //[HttpPut("{id}")]
         //public IActionResult Put(int id, Post post)
