@@ -39,7 +39,7 @@ export const PostDetails = () => {
 
             {/* making sure a user only has access to the delete button if they were the one who created it */}
             {userObject.id == post.userProfileId 
-                ? <button onClick={ e => navigate(`/deletePost/${id}`) } style={{width: '60px', height: '30px', margin: '5px'}}>Delete</button>
+                ? <button onClick={ e => navigate(`/deletePost/${id}`) }>Delete</button>
                 : ""
             }
             {/* {post?.comments.length ? post?.comments?.map(comment => 
