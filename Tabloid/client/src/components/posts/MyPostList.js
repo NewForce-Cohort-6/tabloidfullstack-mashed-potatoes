@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Post } from './Post';
 import { getUserPostsById } from "../../Managers/PostManager";
+import { Link } from "react-router-dom";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
@@ -19,6 +20,9 @@ const PostList = () => {
 
   return (
     <>
+    <Link to={`/createPost`}>
+      New Post
+    </Link>
     <h1>My Posts</h1>
     <div className="container">
       <div className="row justify-content-center">
