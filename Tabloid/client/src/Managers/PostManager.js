@@ -26,7 +26,6 @@ export const getUserPostsById = (id) => {
 }
 
 export const addPost = (singlePost) => {
-  debugger
   return fetch(baseUrl, {
     method: "POST",
     headers: {
@@ -34,4 +33,10 @@ export const addPost = (singlePost) => {
     },
     body: JSON.stringify(singlePost)
   });
+};
+
+export const deletePost = (id) => {
+  return fetch(`/api/Post/${id}`, {
+      method: "DELETE"
+    })
 };
