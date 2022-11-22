@@ -21,7 +21,7 @@ const PostDelete = () => {
     }
 
     const Cancel = () => {
-        navigate(`/Posts:{id}`)
+        navigate(`/Posts:${id}`)
     }
 
     return (
