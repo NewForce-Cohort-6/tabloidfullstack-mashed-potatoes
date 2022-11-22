@@ -1,18 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getPost, editPost } from "../../Managers/PostManager";
 import { getAllCategories } from "../../Managers/CategoryManager";
-import { addPost } from "../../Managers/PostManager";
 
-export const PostForm = () => {
-    /*
-        TODO: Add the correct default properties to the
-        initial state object
-    */
+
+const PostEdit = () => {
     const [post, update] = useState({
-        Title: "",
-        Content: "",
-        ImageLocation: ""
-    })
+        title: "",
+        content: "",
+        imageLocation: ""
+    });
+
+    const navigate = useNavigate();
+    const { id } = useParams();  
+    
+    const localUser = localStorage.getItem("userProfile")
+    const userObject = JSON.parse(localUser)
 
     const [categories, setCategories] = useState([])
 
@@ -20,36 +25,29 @@ export const PostForm = () => {
         getAllCategories().then(setCategories);
     }, []);
 
-    const navigate = useNavigate()
-
-    const localUser = localStorage.getItem("userProfile")
-    const userObject = JSON.parse(localUser)
-
-    //let categoryHtml = ""
-    //document.getElementById("categories"). innerHTML = categoryHtml;
-
-
-    const handleSaveButtonClick = (event) => {
-        event.preventDefault()
-        
-        // TODO: Create the object to be saved to the API
-        const newPost = {
-            Title: post.Title,
-            Content: post.Content,
-            ImageLocation: post.ImageLocation,
-            UserProfileId: userObject.id,
-            CategoryId: post.CategoryId,
-            PublishDateTime: post.PublishDateTime
+    useEffect(() => {
+        getPost(id).then(update)        
+    }, [])
+    
+    const Edit = () => {
+        const editedPost = {
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            imageLocation: post.imageLocation,
+            userProfileId: userObject.id,
+            categoryId: post.categoryId,
+            publishDateTime: post.publishDateTime
         }
 
-        addPost(newPost)
-            .then(r => r.json())
-            .then(p => {
-                navigate(`/posts/${p.id}`)
-            })
+        editPost(editedPost)
+        navigate(`/posts/${id}`)
     }
 
-    
+    const Cancel = () => {
+        navigate(`/Posts/${id}`)
+    }
+
     return (
         <form className="postForm">
             <h2 className="postForm__Title">New Post</h2>
@@ -61,10 +59,10 @@ export const PostForm = () => {
                         type="text"
                         className="form-control"
                         placeholder="Post title"
-                        value={post.Title}
+                        value={post.title}
                         onChange={(changeEvent) => {
                             const copy = {...post}
-                            copy.Title = changeEvent.target.value
+                            copy.title = changeEvent.target.value
                             update(copy)
                         }} />
                 </div>
@@ -77,10 +75,10 @@ export const PostForm = () => {
                         type="text"
                         className="form-control"
                         placeholder="Post content"
-                        value={post.Content}
+                        value={post.content}
                         onChange={(changeEvent) => {
                             const copy = {...post}
-                            copy.Content = changeEvent.target.value
+                            copy.content = changeEvent.target.value
                             update(copy)
                         }} />
                 </div>
@@ -93,10 +91,10 @@ export const PostForm = () => {
                         type="text"
                         className="form-control"
                         placeholder="www.example.com"
-                        value={post.ImageLocation}
+                        value={post.imageLocation}
                         onChange={(changeEvent) => {
                             const copy = {...post}
-                            copy.ImageLocation = changeEvent.target.value
+                            copy.imageLocation = changeEvent.target.value
                             update(copy)
                         }} />
                 </div>
@@ -105,10 +103,10 @@ export const PostForm = () => {
                 <div className="form-group">
                     <label htmlFor="category">Category</label>
                     <select required className="form-control" 
-                            value={post.CategoryId} 
+                            value={post.categoryId} 
                             onChange={(changeEvent) => {
                                 const copy = {...post}
-                                copy.CategoryId = changeEvent.target.value
+                                copy.categoryId = changeEvent.target.value
                                 update(copy)
                             }}>
                         <option value="0">Choose a category</option>
@@ -121,19 +119,19 @@ export const PostForm = () => {
                     <label htmlFor="publishDateTime">Publish Date</label>
                     <input className="form-control" 
                             type="date"
-                            value={post.PublishDateTime} 
+                            value={post.publishDateTime} 
                             onChange={(changeEvent) => {
                                 const copy = {...post}
-                                copy.PublishDateTime = changeEvent.target.value
+                                copy.publishDateTime = changeEvent.target.value
                                 update(copy)
                             }}/>
                 </div>         
             </fieldset>
-            <button onClick={(clickEvent) => {handleSaveButtonClick(clickEvent)}} className="btn btn-primary">
-                Publish Post
-            </button>
+            
+            <button className="btn btn-primary" style={{marginRight: '10px'}} onClick={ e => Edit() }>Edit</button>
+            <button onClick={ e => Cancel() }>Cancel</button>
         </form>
     )
 }
 
-export default PostForm;
+export default PostEdit;
