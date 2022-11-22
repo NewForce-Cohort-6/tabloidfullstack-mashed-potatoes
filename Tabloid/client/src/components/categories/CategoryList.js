@@ -21,20 +21,25 @@ const CategoryList = () => {
 
   return (
     <>
-    <h1>Categories</h1>
-    <h1 style={{marginBottom: '25px'}}>Create Category</h1>
-    <button onClick={(e) => {
+     <div className="container">
+        <div className="row justify-content-center" style={{display: 'flex', flexDirection: 'column'}}>
+          <h4 style={{marginTop: '20px', marginBottom: '15px'}}>Categories</h4>
+          <button onClick={(e) => {
             navigate('/createCategory')
-          }} style={{marginTop: '15px', width: '120px'}}
+          }} style={{width: '120px', marginBottom: '25px'}}
           >New Category</button>
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="cards-column">
-          {categories?.map((category) => (
-            <>
-              <Category key={category.id} category={category} />
-            </>
-          ))}
+            <div className="cards-column">
+                {categories.map((c) => (
+                  <div style={{display: 'flex'}}>
+                    <Category key={c.id} category={c} />
+                    {/* <button onClick={(e) => {
+                      handleDeleteClick(c.id)
+                    }} style={{width: '60px', height: '30px', margin: '5px'}}>Delete</button>
+                    <button onClick={(e) => {
+                      handleEditClick(c.id)
+                    }} style={{width: '43px', height: '30px', margin: '5px'}}> Edit </button> */}
+                    </div>
+                    ))}
         </div>
       </div>
     </div>

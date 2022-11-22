@@ -7,6 +7,7 @@ using Tabloid.Utils;
 using Microsoft.Extensions.Hosting;
 using Tabloid.Repositories;
 using System.Reflection.PortableExecutable;
+using Microsoft.Data.SqlClient;
 
 namespace Tabloid.Repositories
 {
@@ -47,27 +48,27 @@ namespace Tabloid.Repositories
         }
         public Category GetById(int id)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
                 SELECT Id,[Name]
                 FROM Category
-                ORDER BY [Name]";
+                Where Id = @id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
-                    var reader = cmd.ExecuteReader();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
                     Category category = null;
                     while (reader.Read())
                     {
                         category = new Category()
                         {
-                            Id = id,
-                            Name = DbUtils.GetString(reader, "Name")
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
                         };
                     }
 
@@ -92,6 +93,25 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@Name", category.Name);
                     
                     category.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE FROM Category
+                            WHERE Id = @id
+                        ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

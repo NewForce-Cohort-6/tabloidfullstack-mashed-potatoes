@@ -8,21 +8,32 @@ const PostTag = (tag) => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [tags, setTags] = useState([]);
+    const [newTag, setNewTag] = useState({});
 
-    // const addTags = () => {
-    //     const newTag = {
-    //         name: chosenTag.name,
-    //         id: chosenTag.id
-    //     }
-    //     console.log(newTag)
-    //     addPostTag(newTag).then((e) => {
-    //         navigate('/tag')
-    //     })
-    // }
+    useEffect(
+        () => {
+            getById(id).then((c) => {setNewTag(c)}).then(console.log(newTag))
+            
+        },
+        []
+        )
+    
+        console.log(newTag)
 
-    const handleAddClick = (id) => {
-        getById(id).then((e) => {navigate(`/posts/${id}`)})
+    const addTags = () => {
+        const newChosenTag = {
+            name: newTag.name,
+            id: newTag.id
+        }
+        console.log(newChosenTag)
+        addPostTag(newChosenTag).then((e) => {
+            navigate('/posts/${id}')
+        })
     }
+
+    // const handleAddClick = (id) => {
+    //     getById(id).then((e) => {navigate(`/posts/${id}`)})
+    // }
     const getTags = () => {
         getAllTags().then( all => setTags(all))
     };
@@ -41,7 +52,7 @@ const PostTag = (tag) => {
                   <div style={{display: 'flex'}}>
                     <Tag key={t.id} tag={t} />
                     <button onClick={(e) => {
-                      handleAddClick(t.id)
+                      addTags(t.id)
                     }} style={{width: '60px', height: '30px', margin: '5px'}}>Add</button>
                     
                     </div>

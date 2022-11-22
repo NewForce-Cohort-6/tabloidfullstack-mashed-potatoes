@@ -40,11 +40,13 @@ export const PostDetails = () => {
                 <p>Author: {post.userProfile.displayName}</p>
             {/* </Link> */}
             <p>Published: {post.publishDateTime.substring(0, 10)}</p>
-            <p>Tags: {tag.name} </p>
+            <div>
+                Tags: {post.tags.map((t) => <p>{t.name}</p>)} 
+            </div>
             <button onClick={(e) => {
             navigate('/addTag')
           }} style={{marginTop: '15px', width: '120px'}}
-          >Manage Tag</button>
+          >Manage Tags</button>
             <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
             <p>{post.content}</p>
             

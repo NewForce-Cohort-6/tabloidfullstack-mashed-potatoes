@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using Tabloid.Models;
+using Tabloid.Utils;
 
 namespace Tabloid.Repositories
 {
@@ -12,7 +13,7 @@ namespace Tabloid.Repositories
 
 
         //creat a postTag
-        public void AddPostTag(PostTag postTag)
+        public void Add(PostTag postTag)
         {
             using (SqlConnection conn = Connection)
             {
@@ -63,52 +64,61 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.id, p.Title, p.Content, p.ImageLocation, p.PublishDateTime,
-                                            p.CreateDateTime, p.isApproved, p.categoryId, p.userProfileId,
-                                            pt.PostId AS PostTagPostId, pt.TagId as PostTagId, t.name,
+                    cmd.CommandText = @"SELECT Id, PostId, TagId FROM PostTag";
+                        //@"SELECT p.id, p.Title, p.Content, p.ImageLocation, p.PublishDateTime,
+                        //                    p.CreateDateTime, p.isApproved, p.categoryId, p.userProfileId,
+                        //                    pt.PostId AS PostTagPostId, pt.TagId as PostTagId, t.name,
 
-                                            c.name as CategoryName, u.DisplayName
-                                        FROM Post p 
-                                        left join PostTag pt on pt.PostId = p.Id
-                                        left join tag t on pt.TagId = t.Id
-                                       left join category c on p.categoryId = c.id
-                                       left join userProfile u on p.userProfileId = u.id
-                                        where p.IsApproved = 1
-                                        order by p.publishDateTime desc;";
+                        //                    c.name as CategoryName, u.DisplayName
+                        //                FROM Post p 
+                        //                left join PostTag pt on pt.PostId = p.Id
+                        //                left join tag t on pt.TagId = t.Id
+                        //               left join category c on p.categoryId = c.id
+                        //               left join userProfile u on p.userProfileId = u.id
+                                        
+                        //                order by p.publishDateTime desc;";
 
-                    cmd.Parameters.AddWithValue("now", DateTime.Now);
+                    //cmd.Parameters.AddWithValue("now", DateTime.Now);
+                    //cmd.Parameters.AddWithValue("@tagId", postTag.TagId);
+                    //cmd.Parameters.AddWithValue("@postId", postTag.PostId);
+
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    List<Post> posts = new List<Post>();
+                    List<PostTag> postTags = new List<PostTag>();
                     while (reader.Read())
                     {
-                        Post post = new Post()
+                        postTags.Add(new PostTag
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Title = reader.GetString(reader.GetOrdinal("Title")),
-                            Content = reader.GetString(reader.GetOrdinal("Content")),
-                            ImageLocation = reader.GetString(reader.GetOrdinal("ImageLocation")),
-                            PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime")),
-                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
-                            IsApproved = reader.GetBoolean(reader.GetOrdinal("isApproved")),
-                            CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-                            UserProfile = new UserProfile(),
-                            Category = new Category(),
-                            TagId = reader.GetInt32(reader.GetOrdinal("TagId")),
-                            PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
-                            Tag = new Tag()
-                        };
-                        post.UserProfile.DisplayName = reader.GetString(reader.GetOrdinal("DisplayName"));
-                        post.Category.Name = reader.GetString(reader.GetOrdinal("CategoryName"));
-                        post.Tag.Name = reader.GetString(reader.GetOrdinal("TagName"));
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            PostId = DbUtils.GetInt(reader, "PostId"),          TagId = DbUtils.GetInt(reader, "TagId")
+                        });
+                        //Post post = new Post()
+                        //{
+                        //    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                        //    Title = reader.GetString(reader.GetOrdinal("Title")),
+                        //    Content = reader.GetString(reader.GetOrdinal("Content")),
+                        //    ImageLocation = reader.GetString(reader.GetOrdinal("ImageLocation")),
+                        //    PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime")),
+                        //    CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                        //    IsApproved = reader.GetBoolean(reader.GetOrdinal("isApproved")),
+                        //    CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                        //    UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                        //    UserProfile = new UserProfile(),
+                        //    Category = new Category(),
+                        //    TagId = reader.GetInt32(reader.GetOrdinal("TagId")),
+                        //    PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                        //    Tag = new Tag()
+                        //};
+                        //post.UserProfile.DisplayName = reader.GetString(reader.GetOrdinal("DisplayName"));
+                        //post.Category.Name = reader.GetString(reader.GetOrdinal("CategoryName"));
+                        //post.Tag.Name = reader.GetString(reader.GetOrdinal("TagName"));
 
-                        posts.Add(post);
+                        //posts.Add(post);
                     }
 
                     reader.Close();
 
-                    return null;
+                    return postTags;
                 }
             }
         }
@@ -125,9 +135,9 @@ namespace Tabloid.Repositories
                                         left join tag t on pt.TagId = t.Id
                                         left join category c on p.categoryId = c.id
                                         left join userProfile u on p.userProfileId = u.id
-                                        WHERE p.IsApproved = 1
+                                        
                                         WHERE Id = @id
-                                        Order by p.publishDateTime desc;";
+                                        ;";
 
                     cmd.Parameters.AddWithValue("@id", id);
 
