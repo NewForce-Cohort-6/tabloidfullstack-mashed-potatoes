@@ -45,11 +45,13 @@ namespace Tabloid.Controllers
             return CreatedAtAction("Get", new { id = category.Id }, category);
         }
 
-        //// PUT api/<CategoryController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        // PUT api/<CategoryController>/5
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, Category category)
+        {
+            _categoryRepository.Update(category);
+            return Ok(category);
+        }
 
         // DELETE api/<CategoryController>/5
         [HttpDelete("{id}")]
