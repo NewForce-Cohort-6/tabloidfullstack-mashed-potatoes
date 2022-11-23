@@ -7,8 +7,8 @@ export const getAllCategories = () => {
         .then((res) => res.json())
 };
 
-export const GetById = (id) => {  //http GET by id parameter 
-    return fetch(`/api/category/GetAllCategories/${id}`)
+export const getById = (id) => {  //http GET by id parameter 
+    return fetch(`https://localhost:5001/api/Category/${id}`)
         .then((res) => res.json());
 };
 
@@ -21,3 +21,9 @@ export const addCategory = (category) => {
         body: JSON.stringify(category),
       })
 };
+
+export const deleteCategory = (id) => {
+    return fetch(`https://localhost:5001/api/Category/${id}`, {
+      method: "DELETE"
+    })
+  }

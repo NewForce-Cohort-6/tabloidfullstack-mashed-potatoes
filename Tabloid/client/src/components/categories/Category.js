@@ -1,16 +1,19 @@
 import React from "react";
-import { Card, CardImg, CardBody } from "reactstrap";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-export const Category = ({ category }) => {
+
+
+const Category = ({category}) => {
+
+  const {id} = useParams();
+  const navigate = useNavigate();
     return (
-        <Card className="m-4">
-            <CardBody>
-                <Link to={`/categories/${category.id}`}>
-                    <strong>{category.name}</strong>
-                    <p>Category: {category.name}</p>
-                </Link>
-            </CardBody>
-        </Card>
-    );
-};
+        <div style={{display:'flex', letterSpacing: '.5px', alignItems: 'center', margin: '45px', borderBottom: '1px solid blue', height: '30px', width: '500px', justifyContent: 'space-between'}}>
+            <h5 style={{ marginRight: '15px' }}>{category.name}</h5>
+            
+        </div>
+    )
+}
+
+export default Category;
