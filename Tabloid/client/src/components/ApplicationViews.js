@@ -12,6 +12,7 @@ import UserProfileList from "./userProfiles/UserProfileList";
 import CategoryList from "./categories/CategoryList";
 import PostForm from "./posts/PostForm";
 import CategoryForm from "./categories/CategoryForm";
+import PostDelete from "./posts/DeletePost";
 import CategoryDelete from "./categories/CategoryDelete"
 import CategoryEdit from "./categories/CategoryEdit"
 
@@ -30,8 +31,7 @@ export default function ApplicationViews() {
         <Route path="/myposts" element={ <MyPostList /> } />
         <Route path="/createPost" element={ <PostForm /> } />
         <Route path="/posts/:id" element={ <PostDetails /> } />
-        {/* <Route path="/posts/add" element={ <PostForm /> } />
-        <Route path="/users/:id" element={ <UserPosts /> } /> */}
+        <Route path="/deletePost/:id" element={ <PostDelete /> } />        
         <Route path="/categories" element={<CategoryList />} />
         <Route path="/createCategory" element={<CategoryForm />} />
         <Route path="/deleteCategory/:id" element={<CategoryDelete />} />
