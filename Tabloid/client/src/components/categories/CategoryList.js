@@ -17,7 +17,11 @@ const CategoryList = () => {
     }, []);
 
     const handleDeleteClick = (id) => {
-        getById(id).then((c) => { navigate(`/deleteCategory/${id}`)})
+        getById(id).then((c) => { navigate(`/deleteCategory/${id}`) })
+    }
+
+    const handleEditClick = (id) => {
+        getById(id).then((e) => { navigate(`/editCategory/${id}`) })
     }
 
     return (
@@ -25,7 +29,7 @@ const CategoryList = () => {
             <div className="row justify-content-center" style={{ display: 'flex', flexDirection: 'column' }}>
                 <h4 style={{ marginTop: '20px' }}>Categories</h4>
                 <h5 style={{ marginRight: '15px' }}>{categories.name}</h5>
-                <button onClick={(c) => {
+                <button onClick={(e) => {
                     navigate('/createCategory')
                 }} style={{ marginTop: '15px', width: '120px' }}
                 >New Category</button>
@@ -33,9 +37,12 @@ const CategoryList = () => {
                     {categories?.map((category) => (
                         <div style={{ display: 'flex' }}>
                             <Category key={category.id} category={category} />
-                            <button onClick={(c) => {
+                            <button onClick={(e) => {
                                 handleDeleteClick(category.id)
                             }} style={{ width: '60px', height: '30px', margin: '5px' }}>Delete</button>
+                            <button onClick={(e) => {
+                                handleEditClick(category.id)
+                            }} style={{ width: '43px', height: '30px', margin: '5px' }}> Edit </button>
                         </div>
                     ))}
                 </div>
