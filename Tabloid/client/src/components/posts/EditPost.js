@@ -29,7 +29,10 @@ const PostEdit = () => {
         getPost(id).then(update)        
     }, [])
     
-    async function Edit() {
+
+    //one step behind issue - inconsistently has updated data after navigate
+    //issue with asyncronous behavior
+    function Edit() {
         const editedPost = {
             id: post.id,
             title: post.title,
@@ -40,8 +43,8 @@ const PostEdit = () => {
             publishDateTime: post.publishDateTime
         }
 
-        await editPost(editedPost).then(navigate(`/posts/${editedPost.id}`));
-        
+        editPost(editedPost);
+        navigate(`/posts/${editedPost.id}`);        
     }
 
     const Cancel = () => {
