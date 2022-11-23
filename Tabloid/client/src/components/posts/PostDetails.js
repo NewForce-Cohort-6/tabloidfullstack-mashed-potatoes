@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardImg, CardBody } from "reactstrap";
 import { getPost } from "../../Managers/PostManager";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,9 @@ export const PostDetails = () => {
         const defaultImage = "https://contenthub-static.grammarly.com/blog/wp-content/uploads/2017/11/how-to-write-a-blog-post.jpeg";
         image.target.src = defaultImage;
     };
+
+    const localUser = localStorage.getItem("userProfile")
+    const userObject = JSON.parse(localUser)
     
     
     useEffect(() => {
@@ -49,7 +52,12 @@ export const PostDetails = () => {
           >Manage Tags</button>
             <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
             <p>{post.content}</p>
-            
+
+            {/* making sure a user only has access to the delete button if they were the one who created it */}
+            {userObject.id == post.userProfileId 
+                ? <button onClick={ e => navigate(`/deletePost/${id}`) }>Delete</button>
+                : ""
+            }
             {/* {post?.comments.length ? post?.comments?.map(comment => 
                 <p key={comment?.id} className="text-left px-2">Comment: {comment?.message}</p>) : ""} */}
         

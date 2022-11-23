@@ -209,84 +209,85 @@ namespace Tabloid
                     post.Id = (int)cmd.ExecuteScalar();
                 }
             }
-        }        
+        }
+
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Post WHERE id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
         //public void Update(Post post)
-            //{
-            //    using (SqlConnection conn = Connection)
-            //    {
-            //        conn.Open();
-            //        {
-            //            using (SqlCommand cmd = conn.CreateCommand())
-            //            {
-            //                cmd.CommandText = @"UPDATE Post
-            //                                        SET Title = @title,
-            //                                            URL = @url,
-            //                                            PublishDateTime = @publishDateTime,
-            //                                            AuthorId = @authorId,
-            //                                            BlogId = @blogId
-            //                                        WHERE id  = @id";
+        //{
+        //    using (SqlConnection conn = Connection)
+        //    {
+        //        conn.Open();
+        //        {
+        //            using (SqlCommand cmd = conn.CreateCommand())
+        //            {
+        //                cmd.CommandText = @"UPDATE Post
+        //                                        SET Title = @title,
+        //                                            URL = @url,
+        //                                            PublishDateTime = @publishDateTime,
+        //                                            AuthorId = @authorId,
+        //                                            BlogId = @blogId
+        //                                        WHERE id  = @id";
 
-            //                cmd.Parameters.AddWithValue("@title", post.Title);
-            //                cmd.Parameters.AddWithValue("@url", post.Url);
-            //                cmd.Parameters.AddWithValue("@publishDateTime", post.PublishDateTime);
-            //                cmd.Parameters.AddWithValue("@authorId", post.Author.Id);
-            //                cmd.Parameters.AddWithValue("@blogId", post.Blog.Id);
-            //                cmd.Parameters.AddWithValue("@id", post.Id);
+        //                cmd.Parameters.AddWithValue("@title", post.Title);
+        //                cmd.Parameters.AddWithValue("@url", post.Url);
+        //                cmd.Parameters.AddWithValue("@publishDateTime", post.PublishDateTime);
+        //                cmd.Parameters.AddWithValue("@authorId", post.Author.Id);
+        //                cmd.Parameters.AddWithValue("@blogId", post.Blog.Id);
+        //                cmd.Parameters.AddWithValue("@id", post.Id);
 
-            //                cmd.ExecuteNonQuery();
-            //            }
-            //        }
-            //    }
-            //}
+        //                cmd.ExecuteNonQuery();
+        //            }
+        //        }
+        //    }
+        //}            
 
-            //public void Delete(int id)
-            //{
-            //    using (SqlConnection conn = Connection)
-            //    {
-            //        conn.Open();
-            //        using (SqlCommand cmd = conn.CreateCommand())
-            //        {
-            //            cmd.CommandText = "DELETE FROM Post WHERE id = @id";
-            //            cmd.Parameters.AddWithValue("@id", id);
+        //public void InsertTag(Post post, Tag tag)
+        //{
+        //    using (SqlConnection conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (SqlCommand cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = @"INSERT INTO PostTag (PostId, TagId)
+        //                                               VALUES (@postId, @tagId)";
+        //            cmd.Parameters.AddWithValue("@postId", post.Id);
+        //            cmd.Parameters.AddWithValue("@tagId", tag.Id);
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //    }
+        //}
 
-            //            cmd.ExecuteNonQuery();
-            //        }
-            //    }
-            //}
+        //public void DeleteTag(int postId, int tagId)
+        //{
+        //    using (SqlConnection conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (SqlCommand cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = @"DELETE FROM PostTag 
+        //                                 WHERE PostId = @postId AND 
+        //                                       TagId = @tagId";
+        //            cmd.Parameters.AddWithValue("@postId", postId);
+        //            cmd.Parameters.AddWithValue("@tagId", tagId);
 
-            //public void InsertTag(Post post, Tag tag)
-            //{
-            //    using (SqlConnection conn = Connection)
-            //    {
-            //        conn.Open();
-            //        using (SqlCommand cmd = conn.CreateCommand())
-            //        {
-            //            cmd.CommandText = @"INSERT INTO PostTag (PostId, TagId)
-            //                                               VALUES (@postId, @tagId)";
-            //            cmd.Parameters.AddWithValue("@postId", post.Id);
-            //            cmd.Parameters.AddWithValue("@tagId", tag.Id);
-            //            cmd.ExecuteNonQuery();
-            //        }
-            //    }
-            //}
-            //public void DeleteTag(int postId, int tagId)
-            //{
-            //    using (SqlConnection conn = Connection)
-            //    {
-            //        conn.Open();
-            //        using (SqlCommand cmd = conn.CreateCommand())
-            //        {
-            //            cmd.CommandText = @"DELETE FROM PostTag 
-            //                                 WHERE PostId = @postId AND 
-            //                                       TagId = @tagId";
-            //            cmd.Parameters.AddWithValue("@postId", postId);
-            //            cmd.Parameters.AddWithValue("@tagId", tagId);
-
-            //            cmd.ExecuteNonQuery();
-            //        }
-            //    }
-            //}
-        }
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //    }
+        //}
+    }
 }
 
