@@ -34,7 +34,7 @@ export const editTag = (tag) => {
       }).then((res) => res.json())
 };
 export const addPostTag = (post) => {
-    return fetch(`https://localhost:5001/api/addTag/${post.id}`, {
+    return fetch(`https://localhost:5001/api/posts/${post.id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
