@@ -29,7 +29,7 @@ const PostEdit = () => {
         getPost(id).then(update)        
     }, [])
     
-    const Edit = () => {
+    async function Edit() {
         const editedPost = {
             id: post.id,
             title: post.title,
@@ -40,8 +40,8 @@ const PostEdit = () => {
             publishDateTime: post.publishDateTime
         }
 
-        editPost(editedPost)
-        navigate(`/posts/${id}`)
+        await editPost(editedPost).then(navigate(`/posts/${editedPost.id}`));
+        
     }
 
     const Cancel = () => {
