@@ -56,7 +56,7 @@ namespace Tabloid.Repositories
                     cmd.CommandText = @"
                 SELECT Id,[Name]
                 FROM Category
-                Where Id = @id";
+                WHERE Id = @id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
