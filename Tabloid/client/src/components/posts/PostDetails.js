@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardImg, CardBody } from "reactstrap";
+import CardLink from "reactstrap/lib/CardLink";
 import { getPost } from "../../Managers/PostManager";
 
 
-export const PostDetails = () => {
+export const PostDetails = ({isMy}) => {
     const [post, setPost] = useState();
     const { id } = useParams();
     const navigate = useNavigate();
@@ -45,6 +46,26 @@ export const PostDetails = () => {
             {/* {post?.comments.length ? post?.comments?.map(comment => 
                 <p key={comment?.id} className="text-left px-2">Comment: {comment?.message}</p>) : ""} */}
         
+        </CardBody>
+        <CardBody>
+        {isMy ?
+                        <CardLink href="/my-posts">
+                            Go back to list
+                        </CardLink>
+                        :
+                        <CardLink href="/posts">
+                            Go back to list
+                        </CardLink>
+                    }
+                    {isMy ?
+                        <CardLink href={`/my-posts/${id}/comments`}>
+                            Comments
+                        </CardLink>
+                        :
+                        <CardLink href={`/posts/${id}/comments`}>
+                            Comments
+                        </CardLink>
+                    }
         </CardBody>
 
     </Card>
