@@ -15,6 +15,8 @@ import CategoryForm from "./categories/CategoryForm";
 import PostDelete from "./posts/DeletePost";
 import PostEdit from "./posts/EditPost";
 import CategoryDelete from "./categories/CategoryDelete";
+import CategoryDelete from "./categories/CategoryDelete"
+import CategoryEdit from "./categories/CategoryEdit"
 
 export default function ApplicationViews() {
 
@@ -36,6 +38,7 @@ export default function ApplicationViews() {
         <Route path="/categories" element={<CategoryList />} />
         <Route path="/createCategory" element={<CategoryForm />} />
         <Route path="/deleteCategory/:id" element={<CategoryDelete />} />
+        <Route path="/editCategory/:id" element={<CategoryEdit />} />
         <Route path="*" element={<p>Whoops, nothing here...</p>} />
           
       </Routes>
