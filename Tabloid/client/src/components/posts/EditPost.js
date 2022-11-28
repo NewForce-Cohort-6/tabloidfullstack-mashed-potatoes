@@ -30,9 +30,11 @@ const PostEdit = () => {
     }, [])
     
 
-    //one step behind issue - inconsistently has updated data after navigate
-    //issue with asyncronous behavior
-    function Edit() {
+    //one step behind issue -- needed e.preventDefault();
+    function Edit(e) {
+
+        e.preventDefault();
+
         const editedPost = {
             id: post.id,
             title: post.title,
@@ -43,8 +45,9 @@ const PostEdit = () => {
             publishDateTime: post.publishDateTime
         }
 
-        editPost(editedPost);
-        navigate(`/posts/${editedPost.id}`);        
+        editPost(editedPost).then(() => {
+            console.log("here?");
+            navigate(`/posts/${editedPost.id}`)});        
     }
 
     const Cancel = () => {
@@ -131,7 +134,7 @@ const PostEdit = () => {
                 </div>         
             </fieldset>
             
-            <button className="btn btn-primary" style={{marginRight: '10px'}} onClick={ e => Edit() }>Edit</button>
+            <button className="btn btn-primary" style={{marginRight: '10px'}} onClick={ e => Edit(e) }>Edit</button>
             <button onClick={ e => Cancel() }>Cancel</button>
         </form>
     )
