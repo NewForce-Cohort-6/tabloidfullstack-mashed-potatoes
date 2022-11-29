@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Policy;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Tabloid.Models;
@@ -211,34 +212,42 @@ namespace Tabloid
             }
         }
 
-        //public void Update(Post post)
-        //{
-        //    using (SqlConnection conn = Connection)
-        //    {
-        //        conn.Open();
-        //        {
-        //            using (SqlCommand cmd = conn.CreateCommand())
-        //            {
-        //                cmd.CommandText = @"UPDATE Post
-        //                                        SET Title = @title,
-        //                                            URL = @url,
-        //                                            PublishDateTime = @publishDateTime,
-        //                                            AuthorId = @authorId,
-        //                                            BlogId = @blogId
-        //                                        WHERE id  = @id";
+        public void Update(Post post)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE Post
+                                                SET Title = @title, 
+                                                    Content = @content, 
+                                                    ImageLocation = @imageLocation, 
+                                                    CreateDateTime = @createDateTime, 
+                                                    PublishDateTime = @publishDateTime,
+                                                    IsApproved = @isApproved, 
+                                                    CategoryId = @categoryId, 
+                                                    UserProfileId = @userProfileId
+                                                WHERE id  = @id";
 
-        //                cmd.Parameters.AddWithValue("@title", post.Title);
-        //                cmd.Parameters.AddWithValue("@url", post.Url);
-        //                cmd.Parameters.AddWithValue("@publishDateTime", post.PublishDateTime);
-        //                cmd.Parameters.AddWithValue("@authorId", post.Author.Id);
-        //                cmd.Parameters.AddWithValue("@blogId", post.Blog.Id);
-        //                cmd.Parameters.AddWithValue("@id", post.Id);
+                        cmd.Parameters.AddWithValue("@id", post.Id);
+                        cmd.Parameters.AddWithValue("@title", post.Title);
+                        cmd.Parameters.AddWithValue("@content", post.Content);
+                        cmd.Parameters.AddWithValue("@imageLocation", post.ImageLocation);
+                        cmd.Parameters.AddWithValue("@createDateTime", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@isApproved", true);
+                        cmd.Parameters.AddWithValue("@categoryId", post.CategoryId);
+                        cmd.Parameters.AddWithValue("@userProfileId", post.UserProfileId);
 
-        //                cmd.ExecuteNonQuery();
-        //            }
-        //        }
-        //    }
-        //}            
+                        object published = post.PublishDateTime < DateTime.Parse("1/1/1753") ? DateTime.Now : post.PublishDateTime;
+                        DbUtils.AddParameter(cmd, "@PublishDateTime", published);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
 
         //public void InsertTag(Post post, Tag tag)
         //{
