@@ -5,6 +5,7 @@ import { getPost } from "../../Managers/PostManager";
 import { getAllTags } from "../tags/TagManager";
 
 
+
 export const PostDetails = () => {
     const [post, setPost] = useState();
     const [tag, setTag] = useState();
@@ -38,6 +39,7 @@ export const PostDetails = () => {
     <Card className="m-4">
         <CardBody>
             <strong>{post.title}</strong>
+            
             {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}</p>
             {/* </Link> */}
