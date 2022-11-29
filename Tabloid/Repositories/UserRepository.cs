@@ -131,8 +131,7 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          Select u.Id, u.FirstName, u.LastName, u.DisplayName, u.UserTypeId, u.Email, u.ImageLocation, u.IsActive, u.CreateDateTime,
-                            ut.Id, ut.Name
+                          Select u.Id, u.FirstName, u.LastName, u.DisplayName, u.UserTypeId, u.Email, u.ImageLocation, u.CreateDateTime, ut.Id, ut.Name
                             From UserProfile u
                                 Left Join UserType ut ON u.UserTypeId = ut.Id
                            WHERE u.Id = @Id";
