@@ -14,7 +14,6 @@ import PostForm from "./posts/PostForm";
 import CategoryForm from "./categories/CategoryForm";
 import PostDelete from "./posts/DeletePost";
 import PostEdit from "./posts/EditPost";
-import CategoryDelete from "./categories/CategoryDelete";
 import CategoryDelete from "./categories/CategoryDelete"
 import CategoryEdit from "./categories/CategoryEdit"
 
