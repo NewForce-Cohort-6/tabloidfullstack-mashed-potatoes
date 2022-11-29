@@ -6,7 +6,7 @@ import { addSubscription, getAllSubscriptions } from "../../Managers/Subscriptio
 
 
 export const PostDetails = () => {
-    const [post, setPost] = useState({});
+    const [post, setPost] = useState("");
     const [subscriptions, setSubscriptions] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const PostDetails = () => {
     
     useEffect(() => {
         getPost(id)
-            .then(setPost);
+            .then(p => setPost(p));
         
         getAllSubscriptions()
             .then(setSubscriptions);
@@ -32,11 +32,17 @@ export const PostDetails = () => {
 
     useEffect(() => {
         
-        for (const s of subscriptions) {
-            if (s.subscriberUserProfileId == userObject.id && s.providerUserProfileId == post.userProfileId) {
-                setSubscribed(true)
-            }                    
-        }
+        getPost(id)
+            .then(p => setPost(p))
+            .then(() => {
+                for (const s of subscriptions) {
+                    if (s.subscriberUserProfileId == userObject.id && s.providerUserProfileId == post.userProfileId) {
+                        setSubscribed(true)
+                    }                    
+                }
+            })
+
+        
     },[subscriptions]);
 
     const Subscribe = (e) => {
