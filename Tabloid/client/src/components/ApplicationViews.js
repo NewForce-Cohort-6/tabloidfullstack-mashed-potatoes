@@ -13,9 +13,11 @@ import CategoryList from "./categories/CategoryList";
 import PostForm from "./posts/PostForm";
 import CategoryForm from "./categories/CategoryForm";
 import PostDelete from "./posts/DeletePost";
-import CategoryDelete from "./categories/CategoryDelete"
-import CategoryEdit from "./categories/CategoryEdit"
+import CategoryDelete from "./categories/CategoryDelete";
+import CategoryEdit from "./categories/CategoryEdit";
 import { PostComments } from "./comments/PostComments";
+import { AddComment } from "./comments/AddComment";
+
 
 
 export default function ApplicationViews() {
@@ -40,6 +42,8 @@ export default function ApplicationViews() {
       <Route path="/editCategory/:id" element={<CategoryEdit />} />
       <Route path="/my-posts/:id/comments" element={<PostComments isMy={true} />} />
       <Route path="/posts/:id/comments" element={<PostComments isMy={false} />} />
+      <Route path ="/my-posts/:id/addComment" element={<AddComment isMy={true}/>} />
+      <Route path ="/posts/:id/addComment" element={<AddComment isMy={false}/>} />
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
 
     </Routes>

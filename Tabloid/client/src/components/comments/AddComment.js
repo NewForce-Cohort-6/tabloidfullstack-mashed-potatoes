@@ -4,7 +4,7 @@ import { addComment } from "../../Managers/CommentManager";
 import { getCurrentUser } from "../../Managers/UserProfileManager";
 import { CardLink } from "reactstrap";
 
-export const CommentNew = ({isMy}) => {
+export const AddComment = ({isMy}) => {
     const navigate = useNavigate();
     const currentUser = getCurrentUser();
     const { id } = useParams();
@@ -18,7 +18,7 @@ export const CommentNew = ({isMy}) => {
     })
 
     
-    const handleSaveNewComment = (event) => { //need to complete
+    const handleSaveNewComment = (event) => {
         event.preventDefault()
         const newCommentToSendToApi = {
             subject:newComment.subject,
@@ -47,8 +47,8 @@ export const CommentNew = ({isMy}) => {
             <form className="m-5" onSubmit={handleSaveNewComment}>
                 <div className="col-md-3">
                     <label htmlFor="tag">Add New Comment</label>
-                    <input type="text" placeholder="add subject" onChange={saveNewComment} className="form-control" id="subject" />
-                    <input type="text" placeholder="add content"  onChange={saveNewComment} className="form-control" id="content" />
+                    <input type="text" placeholder="Add Subject" onChange={saveNewComment} className="form-control" id="subject" />
+                    <input type="text" placeholder="Add Content"  onChange={saveNewComment} className="form-control" id="content" />
                 <button type="submit" className="btn btn-primary mt-2" >Save</button>
                 {isMy ?
                         <CardLink href={`/my-posts/${id}`}>
