@@ -15,6 +15,7 @@ const UserProfileList = () => {
     () => {
         getUsers();
     }, []);
+    
     console.log(users)
     return (<div>
         <h3 style={{margin: '15px'}}>User Profiles</h3>
