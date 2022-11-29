@@ -16,7 +16,7 @@ import PostTag from "./tags/PostTag";
 import PostDelete from "./posts/DeletePost";
 import CategoryDelete from "./categories/CategoryDelete";
 import CategoryEdit from "./categories/CategoryEdit";
-import UserProfileDetails from "./userProfiles/UserProfileDetail";
+// import UserProfileDetails from "./userProfiles/UserProfileDetail";
 
 export default function ApplicationViews() {
 
@@ -38,7 +38,7 @@ export default function ApplicationViews() {
         <Route path="/createCategory" element={<CategoryForm />} />
         <Route path="/deleteCategory/:id" element={<CategoryDelete />} />
         <Route path="/editCategory/:id" element={<CategoryEdit />} />
-        <Route path="/users/:id" element={<UserProfileDetails />} />
+        {/* <Route path="/users/:id" element={<UserProfileDetails />} /> */}
         <Route path="*" element={<p>Whoops, nothing here...</p>} />
         <Route path="/addTag" element={<PostTag />} />
  
