@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardImg, CardBody } from "reactstrap";
 import { getPost } from "../../Managers/PostManager";
+import { addSubscription, getAllSubscriptions } from "../../Managers/SubscriptionManager";
 
 
 export const PostDetails = () => {
     const [post, setPost] = useState();
+    const [subscriptions, setSubscriptions] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
+    const [subscribed, setSubscribed] = useState(false)
 
     //all post image links are broken, so need to replace them all with a default image
     const handleBrokenImage = (image) => {
@@ -20,7 +23,29 @@ export const PostDetails = () => {
     
     useEffect(() => {
         getPost(id).then(setPost);
+
+        getAllSubscriptions()
+            .then(setSubscriptions)
+            .then(() => {
+                for (const s of subscriptions) {
+                    if (s.SubscriberUserProfileId == userObject.id && s.ProviderUserProfileId == id) {
+                        setSubscribed(true)
+                    }                    
+                }
+            })
     }, []);
+
+    const Subscribe = (e) => {
+        e.preventDefault();
+
+        const newSubscription = {
+            SubscriberUserProfileId: userObject.id,
+            ProviderUserProfileId: post.userProfileId
+        }
+
+        addSubscription(newSubscription)
+            .then(() => setSubscribed(true));
+    }
     
     if (!post) {
         return null;
@@ -32,6 +57,10 @@ export const PostDetails = () => {
             <strong>{post.title}</strong>
             {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}</p>
+                {!subscribed
+                    ? <button onClick={ e => Subscribe(e) }>Subscribe</button>
+                    : ""
+                }
             {/* </Link> */}
             <p>Published: {post.publishDateTime.substring(0, 10)}</p>
             <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
