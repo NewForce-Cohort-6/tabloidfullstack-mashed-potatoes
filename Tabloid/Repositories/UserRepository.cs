@@ -123,7 +123,7 @@ namespace Tabloid.Repositories
                 }
             }
         }
-        public UserProfile GetById(int id)
+        public UserProfile GetUserById(int id)
         {
             using (var conn = Connection)
             {

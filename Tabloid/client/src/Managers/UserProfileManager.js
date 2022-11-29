@@ -46,7 +46,7 @@ export const getAllUsers = () => {
 
 export const getUserById = (id) => {
   return fetch(`https://localhost:5001/api/userProfile/${id}`)
-    .then((res) => res.json())
+    .then((res) => res.json());
 };
 
 
