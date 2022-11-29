@@ -20,9 +20,9 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, Subject, Content, UserProfileId as CommentUserProfileId, PostId AS CommentPostId, CreateDateTime AS CommentCreateDateTime
+                    cmd.CommandText = @"SELECT Id, Subject, Content, UserProfileId as CommentUserProfileId, PostId AS CommentPostId, CreateDateTime
                                         FROM Comment 
-                                        ";
+                                        ORDER BY CreateDateTime DESC";
 
 
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -37,7 +37,7 @@ namespace Tabloid.Repositories
                             Content = reader.GetString(reader.GetOrdinal("Content")),
                             UserProfileId = reader.GetInt32(reader.GetOrdinal("CommentUserProfileId")),
                             PostId = reader.GetInt32(reader.GetOrdinal("CommentPostId")),
-                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CommentCreateDateTime"))
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
 
                         });
 
@@ -55,7 +55,7 @@ namespace Tabloid.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, Subject, Content, UserProfileId as CommentUserProfileId, PostId AS CommentPostId,                                CreateDateTime AS CommentCreateDateTime
+                    cmd.CommandText = @"SELECT Id, Subject, Content, UserProfileId as CommentUserProfileId, PostId AS CommentPostId, CreateDateTime
                                         FROM Comment 
                                         WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
@@ -70,7 +70,7 @@ namespace Tabloid.Repositories
                             Content = reader.GetString(reader.GetOrdinal("Content")),
                             UserProfileId = reader.GetInt32(reader.GetOrdinal("CommentUserProfileId")),
                             PostId = reader.GetInt32(reader.GetOrdinal("CommentPostId")),
-                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CommentCreateDateTime"))
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
 
                         };
                         reader.Close();

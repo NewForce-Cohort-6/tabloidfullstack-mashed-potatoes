@@ -43,8 +43,8 @@ export const PostDetails = ({isMy}) => {
                 ? <button onClick={ e => navigate(`/deletePost/${id}`) }>Delete</button>
                 : ""
             }
-            {/* {post?.comments.length ? post?.comments?.map(comment => 
-                <p key={comment?.id} className="text-left px-2">Comment: {comment?.message}</p>) : ""} */}
+            {/* {post?.comments?.map(comment => 
+                <p key={comment?.id} className="text-left px-2">Comment: {comment?.content}</p>)} */}
         
         </CardBody>
         <CardBody>
@@ -59,11 +59,11 @@ export const PostDetails = ({isMy}) => {
                     }
                     {isMy ?
                         <CardLink href={`/my-posts/${id}/comments`}>
-                            Comments
+                            View Comments
                         </CardLink>
                         :
                         <CardLink href={`/posts/${id}/comments`}>
-                            Comments
+                            View Comments
                         </CardLink>
                     }
         </CardBody>
