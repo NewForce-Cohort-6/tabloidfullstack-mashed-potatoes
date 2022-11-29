@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Hello from "./Hello";
 import PostList from "./posts/PostList";
@@ -14,8 +14,9 @@ import PostForm from "./posts/PostForm";
 import CategoryForm from "./categories/CategoryForm";
 import PostTag from "./tags/PostTag";
 import PostDelete from "./posts/DeletePost";
-import CategoryDelete from "./categories/CategoryDelete"
-import CategoryEdit from "./categories/CategoryEdit"
+import CategoryDelete from "./categories/CategoryDelete";
+import CategoryEdit from "./categories/CategoryEdit";
+import UserProfileDetails from "./userProfiles/UserProfileDetail";
 
 export default function ApplicationViews() {
 
@@ -37,6 +38,7 @@ export default function ApplicationViews() {
         <Route path="/createCategory" element={<CategoryForm />} />
         <Route path="/deleteCategory/:id" element={<CategoryDelete />} />
         <Route path="/editCategory/:id" element={<CategoryEdit />} />
+        <Route path="/users/:id" element={<UserProfileDetails />} />
         <Route path="*" element={<p>Whoops, nothing here...</p>} />
         <Route path="/addTag" element={<PostTag />} />
  
