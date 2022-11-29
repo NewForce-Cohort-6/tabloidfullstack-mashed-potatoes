@@ -6,7 +6,7 @@ import { addSubscription, getAllSubscriptions } from "../../Managers/Subscriptio
 
 
 export const PostDetails = () => {
-    const [post, setPost] = useState();
+    const [post, setPost] = useState({});
     const [subscriptions, setSubscriptions] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
@@ -22,18 +22,22 @@ export const PostDetails = () => {
     const userObject = JSON.parse(localUser)
     
     useEffect(() => {
-        getPost(id).then(setPost);
-
+        getPost(id)
+            .then(setPost);
+        
         getAllSubscriptions()
-            .then(setSubscriptions)
-            .then(() => {
-                for (const s of subscriptions) {
-                    if (s.SubscriberUserProfileId == userObject.id && s.ProviderUserProfileId == id) {
-                        setSubscribed(true)
-                    }                    
-                }
-            })
+            .then(setSubscriptions);
+          
     }, []);
+
+    useEffect(() => {
+        
+        for (const s of subscriptions) {
+            if (s.subscriberUserProfileId == userObject.id && s.providerUserProfileId == post.userProfileId) {
+                setSubscribed(true)
+            }                    
+        }
+    },[subscriptions]);
 
     const Subscribe = (e) => {
         e.preventDefault();
@@ -56,11 +60,16 @@ export const PostDetails = () => {
         <CardBody>
             <strong>{post.title}</strong>
             {/* <Link to={`/posts/${post.id}`}> */}
-                <p>Author: {post.userProfile.displayName}</p>
-                {!subscribed
+                <p>Author: {post.userProfile.displayName}
+                {!subscribed && post.userProfileId != userObject.id
                     ? <button onClick={ e => Subscribe(e) }>Subscribe</button>
+                    : ""                
+                }
+                {subscribed
+                    ? <span>  | Subscribed ✅</span>
                     : ""
                 }
+                </p>
             {/* </Link> */}
             <p>Published: {post.publishDateTime.substring(0, 10)}</p>
             <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
