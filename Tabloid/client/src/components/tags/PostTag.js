@@ -1,39 +1,60 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { getById, getAllTags, addPostTag } from "./TagManager";
+import { getAllTags, GetAllPostTags, addPostTag } from "./TagManager";
 import Tag from "./Tag";
+import { getPost } from "../../Managers/PostManager";
 
 const PostTag = (tag) => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [tags, setTags] = useState([]);
-    const [newTag, setNewTag] = useState({});
+    const [postTags, setPostTags] = useState([]);
+    const [post, setPost] = useState([]);
 
     useEffect(
         () => {
-            getById(id).then((c) => {setNewTag(c)}).then(console.log(newTag))
-            
+            GetAllPostTags().then((pt) => {setPostTags(pt)})
         },
         []
-        )
-    
-        console.log(newTag)
+    )
+    const getAllPosts = () => {
+        return fetch(`https://localhost:5001/api/post`)
+        .then((res) => res.json())
+        .then(setPost)
+    };
+    useEffect(() => {
+        getAllPosts();
+    }, []);
 
-    const addTags = () => {
-        const newChosenTag = {
-            name: newTag.name,
-            id: newTag.id
-        }
-        console.log(newChosenTag)
-        addPostTag(newChosenTag).then((e) => {
-            navigate('/posts/${id}')
-        })
-    }
+        // const getPost = (id) => {
+        //     return fetch(`https://localhost:5001/api/post/${id}`)
+        //       .then((res) => res.json())
+        //       .then(setPost);
+        //   };
+        const savePostTag = () => {
+            const newChosenTag = {
+                postId: id,
+                tagId: tag.id
+            };
+            addPostTag(newChosenTag).then((t) => {
+                navigate(`/posts/${id}`)
+                
+            })
 
-    // const handleAddClick = (id) => {
-    //     getById(id).then((e) => {navigate(`/posts/${id}`)})
-    // }
+            return fetch(`https://localhost:5001/api/PostTag/${id}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(tag)
+           
+            }).then(getPost)
+               
+          
+          };
+
+   
     const getTags = () => {
         getAllTags().then( all => setTags(all))
     };
@@ -52,7 +73,7 @@ const PostTag = (tag) => {
                   <div style={{display: 'flex'}}>
                     <Tag key={t.id} tag={t} />
                     <button onClick={(e) => {
-                      addTags(t.id)
+                      savePostTag(t.id)
                     }} style={{width: '60px', height: '30px', margin: '5px'}}>Add</button>
                     
                     </div>

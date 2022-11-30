@@ -32,6 +32,7 @@ export default function ApplicationViews() {
       <Route path="/deleteTag/:id" element={<TagDelete />} />
       <Route path="/editTag/:id" element={<TagEdit />} />
       <Route path="/users" element={<UserProfileList />} />
+      <Route path="/users/:id" element={<UserProfileDetails />} />
       <Route path="/posts" element={<PostList />} />
       <Route path="/myposts" element={<MyPostList />} />
       <Route path="/createPost" element={<PostForm />} />
@@ -44,6 +45,7 @@ export default function ApplicationViews() {
       <Route path="/editCategory/:id" element={<CategoryEdit />} />
       <Route path="/my-posts/:id/comments" element={<PostComments isMy={true} />} />
       <Route path="/posts/:id/comments" element={<PostComments isMy={false} />} />
+      <Route path="/addtag" element={<PostTag />} />
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
 
     </Routes>

@@ -42,3 +42,7 @@ export const addPostTag = (post) => {
         body: JSON.stringify(post),
     }).then((res) => res.json());
 };
+export const GetAllPostTags = () => {
+    return fetch(`https://localhost:5001/api/PostTag`)
+    .then((res) => res.json())
+}
