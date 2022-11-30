@@ -6,7 +6,7 @@ import { getPost } from "../../Managers/PostManager";
 import { addSubscription, getAllSubscriptions } from "../../Managers/SubscriptionManager";
 
 
-export const PostDetails = () => {
+export const PostDetails = ({ isMy }) => {
     const [post, setPost] = useState("");
     const [subscriptions, setSubscriptions] = useState([]);
     const { id } = useParams();
