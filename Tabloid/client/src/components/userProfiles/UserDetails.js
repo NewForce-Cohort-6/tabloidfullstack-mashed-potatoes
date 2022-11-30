@@ -21,11 +21,12 @@ console.log(user)
 
     return (
         <>
-        <div style={{width: '1190px', display: 'flex', justifyContent: 'left', marginLeft: '50px', marginTop: '50px', alignContent: 'center'}}>
+        <div style={{width: '1300px', display: 'flex', justifyContent: 'left', marginLeft: '50px', marginTop: '50px', alignContent: 'center'}}>
             <div style={{borderBottom: '1px solid blue', width: '20%'}}>
             <h4>{user.displayName}</h4>
             <img src={user.imageLocation} />
             <h6 style={{marginTop: '15px'}}>Name: {user.firstName} {user.lastName}</h6>
+            <h6>Email: {user.email}</h6>
             <p>UserType: {user?.userType?.name}
             <br></br>
             User Since: {user.createDateTime}</p>
