@@ -5,7 +5,7 @@ import CardLink from "reactstrap/lib/CardLink";
 import { getPost } from "../../Managers/PostManager";
 
 
-export const PostDetails = ({ isMy }) => {
+export const PostDetails = ({isMy}) => {
     const [post, setPost] = useState();
     const { id } = useParams();
     const navigate = useNavigate();
@@ -18,25 +18,25 @@ export const PostDetails = ({ isMy }) => {
 
     const localUser = localStorage.getItem("userProfile")
     const userObject = JSON.parse(localUser)
-
+    
     useEffect(() => {
         getPost(id).then(setPost);
     }, []);
-
+    
     if (!post) {
         return null;
     }
 
     return (
-        <Card className="m-4">
-            <CardBody>
-                <strong>{post.title}</strong>
-                {/* <Link to={`/posts/${post.id}`}> */}
+    <Card className="m-4">
+        <CardBody>
+            <strong>{post.title}</strong>
+            {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}</p>
-                {/* </Link> */}
-                <p>Published: {post.publishDateTime.substring(0, 10)}</p>
-                <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
-                <p>{post.content}</p>
+            {/* </Link> */}
+            <p>Published: {post.publishDateTime.substring(0, 10)}</p>
+            <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
+            <p>{post.content}</p>
 
             {/* making sure a user only has access to the delete button if they were the one who created it */}
             {userObject.id == post.userProfileId 
@@ -46,39 +46,31 @@ export const PostDetails = ({ isMy }) => {
                   </>
                 : ""
             }
-            {/* {post?.comments.length ? post?.comments?.map(comment => 
-                <p key={comment?.id} className="text-left px-2">Comment: {comment?.message}</p>) : ""} */}
-
-            </CardBody>
-            <CardBody>
-                {isMy ?
-                    <>
+            {/* {post?.comments?.map(comment => 
+                <p key={comment?.id} className="text-left px-2">Comment: {comment?.content}</p>)} */}
+        
+        </CardBody>
+        <CardBody>
+        {isMy ?
                         <CardLink href="/my-posts">
                             Go back to list
-                        </CardLink><CardLink href={`/my-posts/${id}/addComment`}>
-                            Add Comment
                         </CardLink>
-                    </>
-                    :
-                    <>
+                        :
                         <CardLink href="/posts">
                             Go back to list
-                        </CardLink><CardLink href={`/posts/${id}/addComment`}>
-                            Add Comment
                         </CardLink>
-                    </>
-                }
-                {isMy ?
-                    <CardLink href={`/my-posts/${id}/comments`}>
-                        Comments
-                    </CardLink>
-                    :
-                    <CardLink href={`/posts/${id}/comments`}>
-                        Comments
-                    </CardLink>
-                }
-            </CardBody>
+                    }
+                    {isMy ?
+                        <CardLink href={`/my-posts/${id}/comments`}>
+                            View Comments
+                        </CardLink>
+                        :
+                        <CardLink href={`/posts/${id}/comments`}>
+                            View Comments
+                        </CardLink>
+                    }
+        </CardBody>
 
-        </Card>
+    </Card>
     );
 };

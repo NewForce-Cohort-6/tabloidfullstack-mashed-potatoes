@@ -4,23 +4,25 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Card, CardBody, CardLink, CardTitle, ListGroup, ListGroupItem } from "reactstrap";
 import { getAllComments } from "../../Managers/CommentManager";
+import { getPost } from "../../Managers/PostManager";
 import { getCurrentUser } from "../../Managers/UserProfileManager";
 
 
 export const PostComments = ({isMy})=> {
     const currentUser = getCurrentUser();
     const navigate = useNavigate();
+    const [comments, setComments] = useState([]);
     const [post, setPost] = useState({});
     const { id } = useParams();
     
-    const getPostWithComments = () => {
-        getAllComments(id).then(post => setPost(post));
+    const getComments = () => {
+        getAllComments(id).then(comments => setComments(comments));
     };
    
     
     useEffect( ()=> {
-        
-            getPostWithComments(); 
+            getPost(id).then(post => setPost(post));   
+            getComments(); 
     },[]);
     
     
@@ -39,13 +41,12 @@ export const PostComments = ({isMy})=> {
         }   
         <section>
         {
-        post?.comments?.length
-            ?post?.comments?.map((c)=>(<>    
+        comments?.find(c=> c.postId == id)
+            ? comments?.filter(c=> c.postId == id).map((c)=>(<>    
             <Card key={c.id}
                 style={{
                     width: '18rem'
-                }}
-            >
+                }}>            
                 <CardBody>
                     <CardTitle tag="h5">
                         Comment
