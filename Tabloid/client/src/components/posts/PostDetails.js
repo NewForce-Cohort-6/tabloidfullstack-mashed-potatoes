@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardImg, CardBody } from "reactstrap";
 import CardLink from "reactstrap/lib/CardLink";
 import { getPost } from "../../Managers/PostManager";
-import { addSubscription, getAllSubscriptions } from "../../Managers/SubscriptionManager";
+import { addSubscription, getAllSubscriptions, unSubscribe } from "../../Managers/SubscriptionManager";
 
 
 export const PostDetails = ({ isMy }) => {
@@ -12,6 +12,7 @@ export const PostDetails = ({ isMy }) => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [subscribed, setSubscribed] = useState(false)
+    const [foundSubscription, setFoundSubscription] = useState("")
 
     //all post image links are broken, so need to replace them all with a default image
     const handleBrokenImage = (image) => {
@@ -22,6 +23,7 @@ export const PostDetails = ({ isMy }) => {
     const localUser = localStorage.getItem("userProfile")
     const userObject = JSON.parse(localUser)
     
+    //set all state variables inside the useEffect instead of inside this component's methods
     useEffect(() => {
         getPost(id)
             .then(p => setPost(p));
@@ -31,10 +33,15 @@ export const PostDetails = ({ isMy }) => {
             .then(() => {
                 for (const s of subscriptions) {
                     if (s.subscriberUserProfileId == userObject.id && s.providerUserProfileId == post.userProfileId) {
-                        setSubscribed(true)
+                        setSubscribed(true);
+                        setFoundSubscription(s);
                     }                    
                 }
-            });  
+            }).then(() => {
+                if(foundSubscription.endDateTime != "0001-01-01T00:00:00") {
+                    setSubscribed(false);
+                }
+            });
 
     }, [subscriptions]);
     
@@ -50,6 +57,19 @@ export const PostDetails = ({ isMy }) => {
         addSubscription(newSubscription)
             .then(() => setSubscribed(true));
     }
+
+    const Unsubscribe = (e) => {
+        e.preventDefault();
+                   
+        const subscription = {
+            id: foundSubscription.id,
+            SubscriberUserProfileId: userObject.id,
+            ProviderUserProfileId: post.userProfileId,
+            BeginDateTime: foundSubscription.beginDateTime
+        }
+
+        unSubscribe(subscription)
+    }
     
     if (!post) {
         return null;
@@ -62,11 +82,15 @@ export const PostDetails = ({ isMy }) => {
             {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}
                 {!subscribed && post.userProfileId != userObject.id
-                    ? <button onClick={ e => Subscribe(e) }>Subscribe</button>
+                    ? <>
+                        <span>  |  </span><button onClick={ e => Subscribe(e) }>Subscribe</button>
+                    </>
                     : ""                
                 }
-                {subscribed
-                    ? <span>  | Subscribed ✅</span>
+                {subscribed && foundSubscription?.endDateTime == "0001-01-01T00:00:00" /*make sure the subscription has not already ended*/
+                    ? <>
+                        <span>  | Subscribed ✅ | </span><span><button onClick={ e => Unsubscribe(e) }>Unsubscribe</button></span>
+                    </>
                     : ""
                 }
                 </p>

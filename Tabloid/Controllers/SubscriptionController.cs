@@ -29,5 +29,24 @@ namespace Tabloid
             _subscriptionRepository.Insert(subscription);
             return CreatedAtAction("Get", new { id = subscription.Id }, subscription);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _subscriptionRepository.Delete(id);
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Subscription subscription)
+        {
+            if (id != subscription.Id)
+            {
+                return BadRequest();
+            }
+
+            _subscriptionRepository.Update(subscription);
+            return NoContent();
+        }
     }
 }

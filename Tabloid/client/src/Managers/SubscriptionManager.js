@@ -16,3 +16,13 @@ export const addSubscription = (subscription) => {
         body: JSON.stringify(subscription),
       })
 };
+
+export const unSubscribe = (subscription) => {
+  return fetch(`/api/Subscription/${subscription.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(subscription),
+    });
+};
