@@ -11,6 +11,8 @@ export const AddComment = ({isMy}) => {
     
     //initial state
     const [newComment, setNewComment] = useState({
+        author: "",
+        creationDate: "",
         subject: "",
         content:"",
         userProfileId: currentUser.id,
@@ -21,8 +23,10 @@ export const AddComment = ({isMy}) => {
     const handleSaveNewComment = (event) => {
         event.preventDefault()
         const newCommentToSendToApi = {
-            subject:newComment.subject,
-            content:newComment.content,
+            author: newComment.author,
+            creationDate: newComment.creationDate,
+            subject: newComment.subject,
+            content: newComment.content,
             userProfileId: currentUser.id,
             postId: id
         }
@@ -47,6 +51,8 @@ export const AddComment = ({isMy}) => {
             <form className="m-5" onSubmit={handleSaveNewComment}>
                 <div className="col-md-3">
                     <label htmlFor="tag">Add New Comment</label>
+                    <input type="text" placeholder="Add Author" onChange={saveNewComment} className="form-control" id="author" />
+                    <input type="text" placeholder="Add Creation Date"  onChange={saveNewComment} className="form-control" id="creationDate" />
                     <input type="text" placeholder="Add Subject" onChange={saveNewComment} className="form-control" id="subject" />
                     <input type="text" placeholder="Add Content"  onChange={saveNewComment} className="form-control" id="content" />
                 <button type="submit" className="btn btn-primary mt-2" >Save</button>
