@@ -26,24 +26,17 @@ export const PostDetails = () => {
             .then(p => setPost(p));
         
         getAllSubscriptions()
-            .then(setSubscriptions);
-          
-    }, []);
-
-    useEffect(() => {
-        
-        getPost(id)
-            .then(p => setPost(p))
+            .then(setSubscriptions)
             .then(() => {
                 for (const s of subscriptions) {
                     if (s.subscriberUserProfileId == userObject.id && s.providerUserProfileId == post.userProfileId) {
                         setSubscribed(true)
                     }                    
                 }
-            })
+            });  
 
-        
-    },[subscriptions]);
+    }, [subscriptions]);
+    
 
     const Subscribe = (e) => {
         e.preventDefault();
