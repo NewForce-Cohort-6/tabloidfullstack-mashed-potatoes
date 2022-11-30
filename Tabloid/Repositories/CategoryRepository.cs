@@ -48,10 +48,10 @@ namespace Tabloid.Repositories
         }
         public Category GetById(int id)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
                 SELECT Id,[Name]
@@ -60,15 +60,15 @@ namespace Tabloid.Repositories
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
-                    var reader = cmd.ExecuteReader();
+                    SqlDataReader reader = cmd.ExecuteReader();
 
                     Category category = null;
                     while (reader.Read())
                     {
                         category = new Category()
                         {
-                            Id = id,
-                            Name = DbUtils.GetString(reader, "Name")
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
                         };
                     }
 

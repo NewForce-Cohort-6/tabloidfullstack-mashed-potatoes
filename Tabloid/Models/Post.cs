@@ -28,6 +28,8 @@ namespace Tabloid
 
         public UserProfile UserProfile { get; set; }
         public Category Category { get; set; }
+        public List<Tag> Tags { get; set; } = new List<Tag>();
+ 
 
 
         //public List<Comment> Comments { get; set; }

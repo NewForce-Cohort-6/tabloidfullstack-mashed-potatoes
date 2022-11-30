@@ -3,10 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardImg, CardBody } from "reactstrap";
 import CardLink from "reactstrap/lib/CardLink";
 import { getPost } from "../../Managers/PostManager";
+import { getAllTags } from "../tags/TagManager";
+
 
 
 export const PostDetails = ({isMy}) => {
     const [post, setPost] = useState();
+    const [tag, setTag] = useState();
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -19,9 +22,15 @@ export const PostDetails = ({isMy}) => {
     const localUser = localStorage.getItem("userProfile")
     const userObject = JSON.parse(localUser)
     
+    
     useEffect(() => {
         getPost(id).then(setPost);
     }, []);
+
+    useEffect(() => {
+        getAllTags(id).then(setTag);
+    }, []);
+    
     
     if (!post) {
         return null;
@@ -31,10 +40,18 @@ export const PostDetails = ({isMy}) => {
     <Card className="m-4">
         <CardBody>
             <strong>{post.title}</strong>
+            
             {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}</p>
             {/* </Link> */}
             <p>Published: {post.publishDateTime.substring(0, 10)}</p>
+            <div>
+                Tags: {post.tags.map((t) => <p>{t.name}</p>)} 
+            </div>
+            <button onClick={(e) => {
+            navigate('/addTag')
+          }} style={{marginTop: '15px', width: '120px'}}
+          >Manage Tags</button>
             <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
             <p>{post.content}</p>
 
