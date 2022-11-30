@@ -4,11 +4,14 @@ import { Card, CardImg, CardBody } from "reactstrap";
 import CardLink from "reactstrap/lib/CardLink";
 import { getPost } from "../../Managers/PostManager";
 import { addSubscription, getAllSubscriptions } from "../../Managers/SubscriptionManager";
+import { getAllTags } from "../tags/TagManager";
+
 
 
 export const PostDetails = ({ isMy }) => {
     const [post, setPost] = useState("");
     const [subscriptions, setSubscriptions] = useState([]);
+    const [tag, setTag] = useState();
     const { id } = useParams();
     const navigate = useNavigate();
     const [subscribed, setSubscribed] = useState(false)
@@ -22,9 +25,12 @@ export const PostDetails = ({ isMy }) => {
     const localUser = localStorage.getItem("userProfile")
     const userObject = JSON.parse(localUser)
     
+    
     useEffect(() => {
         getPost(id)
             .then(p => setPost(p));
+
+        getAllTags(id).then(setTag);
         
         getAllSubscriptions()
             .then(setSubscriptions)
@@ -59,6 +65,7 @@ export const PostDetails = ({ isMy }) => {
     <Card className="m-4">
         <CardBody>
             <strong>{post.title}</strong>
+            
             {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}
                 {!subscribed && post.userProfileId != userObject.id
@@ -72,6 +79,13 @@ export const PostDetails = ({ isMy }) => {
                 </p>
             {/* </Link> */}
             <p>Published: {post.publishDateTime.substring(0, 10)}</p>
+            <div>
+                Tags: {post.tags.map((t) => <p>{t.name}</p>)} 
+            </div>
+            <button onClick={(e) => {
+            navigate('/addTag')
+          }} style={{marginTop: '15px', width: '120px'}}
+          >Manage Tags</button>
             <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
             <p>{post.content}</p>
 
