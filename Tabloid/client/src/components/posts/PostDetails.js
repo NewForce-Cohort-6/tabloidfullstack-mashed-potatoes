@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardImg, CardBody } from "reactstrap";
+import CardLink from "reactstrap/lib/CardLink";
 import { getPost } from "../../Managers/PostManager";
 import { getAllTags } from "../tags/TagManager";
 
 
 
-export const PostDetails = () => {
+export const PostDetails = ({isMy}) => {
     const [post, setPost] = useState();
     const [tag, setTag] = useState();
     const { id } = useParams();
@@ -62,9 +63,29 @@ export const PostDetails = () => {
                   </>
                 : ""
             }
-            {/* {post?.comments.length ? post?.comments?.map(comment => 
-                <p key={comment?.id} className="text-left px-2">Comment: {comment?.message}</p>) : ""} */}
+            {/* {post?.comments?.map(comment => 
+                <p key={comment?.id} className="text-left px-2">Comment: {comment?.content}</p>)} */}
         
+        </CardBody>
+        <CardBody>
+        {isMy ?
+                        <CardLink href="/my-posts">
+                            Go back to list
+                        </CardLink>
+                        :
+                        <CardLink href="/posts">
+                            Go back to list
+                        </CardLink>
+                    }
+                    {isMy ?
+                        <CardLink href={`/my-posts/${id}/comments`}>
+                            View Comments
+                        </CardLink>
+                        :
+                        <CardLink href={`/posts/${id}/comments`}>
+                            View Comments
+                        </CardLink>
+                    }
         </CardBody>
 
     </Card>

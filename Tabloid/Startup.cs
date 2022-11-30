@@ -28,6 +28,7 @@ namespace Tabloid
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IPostTagRepository, PostTagRepository>();
 
+            services.AddTransient<ICommentRepository, CommentRepository>();
 
             services.AddControllers();
 
