@@ -60,17 +60,17 @@ namespace Tabloid
             return CreatedAtAction("Get", new { id = post.Id }, post);
         }
 
-        //[HttpPut("{id}")]
-        //public IActionResult Put(int id, Post post)
-        //{
-        //    if (id != post.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Post post)
+        {
+            if (id != post.Id)
+            {
+                return BadRequest();
+            }
 
-        //    _postRepository.Update(post);
-        //    return NoContent();
-        //}
+            _postRepository.Update(post);
+            return NoContent();
+        }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
