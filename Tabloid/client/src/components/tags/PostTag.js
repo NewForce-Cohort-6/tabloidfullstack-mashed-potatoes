@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getAllTags, GetAllPostTags, addPostTag } from "./TagManager";
 import Tag from "./Tag";
 import { getPost } from "../../Managers/PostManager";
+import { TagButton } from "./Tag";
 
 const PostTag = (tag) => {
     const {id} = useParams();
@@ -32,27 +33,27 @@ const PostTag = (tag) => {
         //       .then((res) => res.json())
         //       .then(setPost);
         //   };
-        const savePostTag = () => {
-            const newChosenTag = {
-                postId: id,
-                tagId: tag.id
-            };
-            addPostTag(newChosenTag).then((t) => {
-                navigate(`/posts/${id}`)
+        // const savePostTag = (tag, id) => {
+        //     const newChosenTag = {
+        //         postId: id,
+        //         tagId: tag.id
+        //     };
+        //     addPostTag(newChosenTag).then((t) => {
+        //         navigate(`/posts/${id}`)
                 
-            })
+        //     })
 
-            return fetch(`https://localhost:5001/api/PostTag/${id}`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(tag)
+        //     return fetch(`https://localhost:5001/api/PostTag/${id}`, {
+        //       method: "POST",
+        //       headers: {
+        //         "Content-Type": "application/json",
+        //       },
+        //       body: JSON.stringify(tag)
            
-            }).then(getPost)
+        //     }).then(getPost)
                
           
-          };
+        //   };
 
    
     const getTags = () => {
@@ -73,7 +74,7 @@ const PostTag = (tag) => {
                   <div style={{display: 'flex'}}>
                     <Tag key={t.id} tag={t} />
                     <button onClick={(e) => {
-                      savePostTag(t.id)
+                      TagButton(t.id)
                     }} style={{width: '60px', height: '30px', margin: '5px'}}>Add</button>
                     
                     </div>
