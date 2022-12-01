@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { addComment } from "../../Managers/CommentManager";
 import { getCurrentUser } from "../../Managers/UserProfileManager";
-import { CardLink } from "reactstrap";
 
 export const AddComment = ({isMy}) => {
     const navigate = useNavigate();
@@ -11,28 +10,26 @@ export const AddComment = ({isMy}) => {
     
     //initial state
     const [newComment, setNewComment] = useState({
-        author: "",
-        creationDate: "",
+        
         subject: "",
         content:"",
-        userProfileId: currentUser.id,
-        postId: id,
+        userProfileId: currentUser.id
+        // postId: id,
     })
     
     const handleSaveNewComment = (event) => {
         event.preventDefault()
         const newCommentToSendToApi = {
-            author: newComment.author,
-            creationDate: newComment.creationDate,
+            
             subject: newComment.subject,
             content: newComment.content,
             userProfileId: currentUser.id,
             postId: id
         }
-        addComment(newCommentToSendToApi).then((t) => {
+        addComment(newCommentToSendToApi).then(() => {
             
             {isMy ? 
-                navigate(`/my-posts/${id}/comments`)
+                navigate(`/myposts/${id}/comments`)
                 
                 :navigate(`/posts/${id}/comments`)
             };
@@ -50,19 +47,17 @@ export const AddComment = ({isMy}) => {
             <form className="m-5" onSubmit={handleSaveNewComment}>
                 <div className="col-md-3">
                     <label htmlFor="tag">Add New Comment</label>
-                    <input type="text" placeholder="Add Author" onChange={saveNewComment} className="form-control" id="author" />
-                    <input type="text" placeholder="Add Creation Date"  onChange={saveNewComment} className="form-control" id="creationDate" />
                     <input type="text" placeholder="Add Subject" onChange={saveNewComment} className="form-control" id="subject" />
                     <input type="text" placeholder="Add Content"  onChange={saveNewComment} className="form-control" id="content" />
                 <button type="submit" className="btn btn-primary mt-2" >Save</button>
                 {isMy ?
-                        <CardLink href={`/my-posts/${id}`}>
+                        <button type="submit" className="btn btn-primary mt-2" onClick={ () => navigate(`/posts/${id}`) } >
                             Back To Post
-                        </CardLink>
+                        </button>
                         :
-                        <CardLink href={`/posts/${id}`}>
+                        <button type="submit" className="btn btn-primary mt-2" onClick={ () => navigate(`/myposts/${id}`) } >
                             Back To Post
-                        </CardLink>
+                        </button>
                     }
                 </div>
             </form>

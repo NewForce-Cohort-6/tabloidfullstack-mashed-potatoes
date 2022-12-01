@@ -24,26 +24,26 @@ export const PostDetails = ({ isMy }) => {
 
     const localUser = localStorage.getItem("userProfile")
     const userObject = JSON.parse(localUser)
-    
-    
+
+
     useEffect(() => {
         getPost(id)
             .then(p => setPost(p));
 
         getAllTags(id).then(setTag);
-        
+
         getAllSubscriptions()
             .then(setSubscriptions)
             .then(() => {
                 for (const s of subscriptions) {
                     if (s.subscriberUserProfileId == userObject.id && s.providerUserProfileId == post.userProfileId) {
                         setSubscribed(true)
-                    }                    
+                    }
                 }
-            });  
+            });
 
     }, [subscriptions]);
-    
+
 
     const Subscribe = (e) => {
         e.preventDefault();
@@ -56,38 +56,38 @@ export const PostDetails = ({ isMy }) => {
         addSubscription(newSubscription)
             .then(() => setSubscribed(true));
     }
-    
+
     if (!post) {
         return null;
     }
 
     return (
-    <Card className="m-4">
-        <CardBody>
-            <strong>{post.title}</strong>
-            
-            {/* <Link to={`/posts/${post.id}`}> */}
+        <Card className="m-4">
+            <CardBody>
+                <strong>{post.title}</strong>
+
+                {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}
-                {!subscribed && post.userProfileId != userObject.id
-                    ? <button onClick={ e => Subscribe(e) }>Subscribe</button>
-                    : ""                
-                }
-                {subscribed
-                    ? <span>  | Subscribed ✅</span>
-                    : ""
-                }
+                    {!subscribed && post.userProfileId != userObject.id
+                        ? <button onClick={e => Subscribe(e)}>Subscribe</button>
+                        : ""
+                    }
+                    {subscribed
+                        ? <span>  | Subscribed ✅</span>
+                        : ""
+                    }
                 </p>
-            {/* </Link> */}
-            <p>Published: {post.publishDateTime.substring(0, 10)}</p>
-            <div>
-                Tags: {post.tags.map((t) => <p>{t.name}</p>)} 
-            </div>
-            <button onClick={(e) => {
-            navigate('/addTag')
-          }} style={{marginTop: '15px', width: '120px'}}
-          >Manage Tags</button>
-            <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
-            <p>{post.content}</p>
+                {/* </Link> */}
+                <p>Published: {post.publishDateTime.substring(0, 10)}</p>
+                <div>
+                    Tags: {post.tags.map((t) => <p>{t.name}</p>)}
+                </div>
+                <button onClick={(e) => {
+                    navigate('/addTag')
+                }} style={{ marginTop: '15px', width: '120px' }}
+                >Manage Tags</button>
+                <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
+                <p>{post.content}</p>
 
                 {/* making sure a user only has access to the delete button if they were the one who created it */}
                 {userObject.id == post.userProfileId
@@ -103,30 +103,29 @@ export const PostDetails = ({ isMy }) => {
             </CardBody>
             <CardBody>
                 {isMy ?
-                    <CardLink href="/my-posts">
-                        Go back to list
-                    </CardLink>
-                    :
                     <CardLink href="/posts">
                         Go back to list
                     </CardLink>
-
+                    :
+                    <CardLink href="/myposts">
+                        Go back to list
+                    </CardLink>
                 }
                 {isMy ?
-                    <CardLink href={`/my-posts/${id}/comments`}>
-                        View Comments
-                    </CardLink>
-                    :
                     <CardLink href={`/posts/${id}/comments`}>
                         View Comments
                     </CardLink>
+                    :
+                    <CardLink href={`/myposts/${id}/comments`}>
+                        View Comments
+                    </CardLink>
                 }
                 {isMy ?
-                    <CardLink href={`/my-posts/${id}/addComment`}>
+                    <CardLink href={`/posts/${id}/addComment`}>
                         Add Comment
                     </CardLink>
                     :
-                    <CardLink href={`/my-posts/${id}/addComment`}>
+                    <CardLink href={`/myposts/${id}/addComment`}>
                         Add Comment
                     </CardLink>
                 }

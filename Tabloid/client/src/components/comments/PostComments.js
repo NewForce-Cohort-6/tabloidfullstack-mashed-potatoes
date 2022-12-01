@@ -28,13 +28,13 @@ export const PostComments = ({ isMy }) => {
         <div className="m-5">
             <h1>{post.title}</h1>
             {isMy ?
-                <CardLink href={`/my-posts/${id}`}>
-                    Go back to post
-                </CardLink>
+                <button type="submit" className="btn btn-primary mt-2" onClick={() => navigate(`/posts/${id}`)} >
+                    Back To Post
+                </button>
                 :
-                <CardLink href={`/posts/${id}`}>
-                    Go back to post
-                </CardLink>
+                <button type="submit" className="btn btn-primary mt-2" onClick={() => navigate(`/myposts/${id}`)} >
+                    Back To Post
+                </button>
             }
             <section>
                 {
