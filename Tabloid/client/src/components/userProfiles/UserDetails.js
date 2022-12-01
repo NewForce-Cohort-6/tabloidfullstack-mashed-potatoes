@@ -1,13 +1,15 @@
 import React from "react";
-import { getUserById } from "../../Managers/UserProfileManager";
-import { useParams } from "react-router-dom";
+import { getUserById, updateUser } from "../../Managers/UserProfileManager";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const UserProfileDetails = () => {
     const [user, setUser] = useState({})
+    const [image, setImage] = useState("")
     const {id} = useParams();
+    const navigate = useNavigate();
 
     const localUser = localStorage.getItem("userProfile")
     const userObject = JSON.parse(localUser)
@@ -17,8 +19,30 @@ const UserProfileDetails = () => {
         getUserById(id).then((u) => {setUser(u)})
     }, []);
 
-    const uploadImage = (e) => {
-        console.log(e.target.value);
+    const uploadImage = (image) => {
+        console.log(image.files[0].name);
+
+        const formData = new FormData();
+        formData.append("image", image.files[0], image.files[0].name);
+        console.log(formData);
+        console.log(formData.getAll("image"));
+
+        const userProfile = {
+            id: user.id,
+            FirstName: user.firstName, 
+            LastName: user.lastName, 
+            DisplayName: user.displayName, 
+            Email: user.email,
+            CreateDateTime: user.createDateTime, 
+            ImageLocation: image.files[0].name, 
+            UserTypeId: user.userTypeId
+        }
+
+        updateUser(userProfile)
+            .then(() => {
+                getUserById(id).then(setUser)
+                document.getElementById('myFile').value = ""; //reset upload image form
+            })
     }
 
     if (!user){
@@ -34,7 +58,8 @@ const UserProfileDetails = () => {
             {userObject.id == user.id
                 ? <> 
                     <form action="/action_page.php">
-                        <input type="file" onChange={(e) => uploadImage(e)} id="myFile" name="filename"/>
+                        <input type="file" id="myFile" onChange={(e) => setImage(e.target)} name="filename"/>
+                        <button type="button" onClick={() => uploadImage(image)}>Upload</button>
                     </form>
                 </>
                 : ""

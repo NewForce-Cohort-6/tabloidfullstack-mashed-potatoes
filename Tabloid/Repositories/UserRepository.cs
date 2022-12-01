@@ -155,7 +155,7 @@ namespace Tabloid.Repositories
                             Email = DbUtils.GetString(reader, "Email"),
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                            //IsActive = DbUtils.GetBoolean(reader, "IsActive"),
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
@@ -180,23 +180,11 @@ namespace Tabloid.Repositories
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
                         cmd.CommandText = @"UPDATE UserProfile
-                                                SET FirstName = @FirstName, 
-                                                    LastName = @LastName, 
-                                                    DisplayName = @DisplayName, 
-                                                    Email = @Email,
-                                                    CreateDateTime = @CreateDateTime, 
-                                                    ImageLocation = @imageLocation, 
-                                                    UserTypeId = @UserTypeId
+                                                SET ImageLocation = @imageLocation
                                                 WHERE id  = @id";
 
                         cmd.Parameters.AddWithValue("@id", userProfile.Id);
-                        cmd.Parameters.AddWithValue("@FirstName", userProfile.FirstName);
-                        cmd.Parameters.AddWithValue("@LastName", userProfile.LastName);
-                        cmd.Parameters.AddWithValue("@DisplayName", userProfile.DisplayName);
-                        cmd.Parameters.AddWithValue("@Email", userProfile.Email);
-                        cmd.Parameters.AddWithValue("@CreateDateTime", userProfile.CreateDateTime);
-                        cmd.Parameters.AddWithValue("@ImageLocation", userProfile.ImageLocation);
-                        cmd.Parameters.AddWithValue("@UserTypeId", userProfile.UserTypeId);
+                        cmd.Parameters.AddWithValue("@imageLocation", userProfile.ImageLocation);
 
                         cmd.ExecuteNonQuery();
                     }

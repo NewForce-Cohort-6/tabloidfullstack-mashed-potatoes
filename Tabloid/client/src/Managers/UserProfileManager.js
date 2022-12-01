@@ -49,6 +49,16 @@ export const getUserById = (id) => {
     .then((res) => res.json());
 };
 
+export const updateUser = (userProfile) => {
+  return fetch(`/api/UserProfile/${userProfile.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userProfile),
+    })
+};
+
 
   // return (
   //   <UserProfileContext.Provider value={{ isLoggedIn, login, logout, register,  }}>
