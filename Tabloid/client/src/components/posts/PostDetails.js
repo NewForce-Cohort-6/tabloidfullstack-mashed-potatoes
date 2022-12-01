@@ -3,15 +3,18 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardImg, CardBody } from "reactstrap";
 import CardLink from "reactstrap/lib/CardLink";
 import { getPost } from "../../Managers/PostManager";
+import { addSubscription, getAllSubscriptions } from "../../Managers/SubscriptionManager";
 import { getAllTags } from "../tags/TagManager";
 
 
 
-export const PostDetails = ({isMy}) => {
-    const [post, setPost] = useState();
+export const PostDetails = ({ isMy }) => {
+    const [post, setPost] = useState("");
+    const [subscriptions, setSubscriptions] = useState([]);
     const [tag, setTag] = useState();
     const { id } = useParams();
     const navigate = useNavigate();
+    const [subscribed, setSubscribed] = useState(false)
 
     //all post image links are broken, so need to replace them all with a default image
     const handleBrokenImage = (image) => {
@@ -24,13 +27,35 @@ export const PostDetails = ({isMy}) => {
     
     
     useEffect(() => {
-        getPost(id).then(setPost);
-    }, []);
+        getPost(id)
+            .then(p => setPost(p));
 
-    useEffect(() => {
         getAllTags(id).then(setTag);
-    }, []);
+        
+        getAllSubscriptions()
+            .then(setSubscriptions)
+            .then(() => {
+                for (const s of subscriptions) {
+                    if (s.subscriberUserProfileId == userObject.id && s.providerUserProfileId == post.userProfileId) {
+                        setSubscribed(true)
+                    }                    
+                }
+            });  
+
+    }, [subscriptions]);
     
+
+    const Subscribe = (e) => {
+        e.preventDefault();
+
+        const newSubscription = {
+            SubscriberUserProfileId: userObject.id,
+            ProviderUserProfileId: post.userProfileId
+        }
+
+        addSubscription(newSubscription)
+            .then(() => setSubscribed(true));
+    }
     
     if (!post) {
         return null;
@@ -42,7 +67,16 @@ export const PostDetails = ({isMy}) => {
             <strong>{post.title}</strong>
             
             {/* <Link to={`/posts/${post.id}`}> */}
-                <p>Author: {post.userProfile.displayName}</p>
+                <p>Author: {post.userProfile.displayName}
+                {!subscribed && post.userProfileId != userObject.id
+                    ? <button onClick={ e => Subscribe(e) }>Subscribe</button>
+                    : ""                
+                }
+                {subscribed
+                    ? <span>  | Subscribed ✅</span>
+                    : ""
+                }
+                </p>
             {/* </Link> */}
             <p>Published: {post.publishDateTime.substring(0, 10)}</p>
             <div>
