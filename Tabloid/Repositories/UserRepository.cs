@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using Tabloid.Models;
 using Tabloid.Utils;
@@ -90,7 +92,7 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                            Select u.Id, u.FirstName, u.LastName, u.DisplayName, u.UserTypeId,
+                            Select u.Id, u.FirstName, u.LastName, u.DisplayName, u.ImageLocation, u.UserTypeId,
                             ut.Id, ut.Name
                             From UserProfile u
                                 Left Join UserType ut ON u.UserTypeId = ut.Id
@@ -107,6 +109,7 @@ namespace Tabloid.Repositories
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                             UserType = new UserType()
                             {
@@ -164,6 +167,39 @@ namespace Tabloid.Repositories
                     reader.Close();
 
                     return user;
+                }
+            }
+        }
+
+        public void Update(UserProfile userProfile)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE UserProfile
+                                                SET FirstName = @FirstName, 
+                                                    LastName = @LastName, 
+                                                    DisplayName = @DisplayName, 
+                                                    Email = @Email,
+                                                    CreateDateTime = @CreateDateTime, 
+                                                    ImageLocation = @imageLocation, 
+                                                    UserTypeId = @UserTypeId
+                                                WHERE id  = @id";
+
+                        cmd.Parameters.AddWithValue("@id", userProfile.Id);
+                        cmd.Parameters.AddWithValue("@FirstName", userProfile.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", userProfile.LastName);
+                        cmd.Parameters.AddWithValue("@DisplayName", userProfile.DisplayName);
+                        cmd.Parameters.AddWithValue("@Email", userProfile.Email);
+                        cmd.Parameters.AddWithValue("@CreateDateTime", userProfile.CreateDateTime);
+                        cmd.Parameters.AddWithValue("@ImageLocation", userProfile.ImageLocation);
+                        cmd.Parameters.AddWithValue("@UserTypeId", userProfile.UserTypeId);
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
         }
