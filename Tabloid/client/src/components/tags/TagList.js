@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import Tag from "./Tag";
+import TagDetailList from "./TagDetailList";
 import { getAllTags, getById } from "./TagManager";
 
 const TagList = (tag) => {
@@ -35,7 +35,7 @@ const TagList = (tag) => {
             <div className="cards-column">
                 {tags.map((t) => (
                   <div style={{display: 'flex'}}>
-                    <Tag key={t.id} tag={t} />
+                    <TagDetailList key={t.id} tag={t} />
                     <button onClick={(e) => {
                       handleDeleteClick(t.id)
                     }} style={{width: '60px', height: '30px', margin: '5px'}}>Delete</button>

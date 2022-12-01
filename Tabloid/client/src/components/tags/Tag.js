@@ -1,19 +1,36 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useNavigate,  } from "react-router-dom";
+import { addPostTag } from "./TagManager";
 
 
+export const TagAndButton = ({ post, tag}) => {
 
-const Tag = ({tag}) => {
+    
+    const navigate = useNavigate();
+    
 
-  const {id} = useParams();
-  const navigate = useNavigate();
-    return (
-        <div style={{display:'flex', letterSpacing: '.5px', alignItems: 'center', margin: '45px', borderBottom: '1px solid blue', height: '30px', width: '500px', justifyContent: 'space-between'}}>
-            <h5 style={{ marginRight: '15px' }}>{tag.name}</h5>
+    //Conditionally render an add button 
+    //but also have button both set state and save the tag?
+    const savePostTag = () => {
+        // event.preventDefault()
+        const newPostTag = {
+            postId: post.id,
+            tagId: tag.id
+        }
+        addPostTag(newPostTag).then((t) => {
+          navigate(`/posts/${post.id}`)
             
-        </div>
-    )
-}
-
-export default Tag;
+        });
+    }
+    return (
+      <tbody>
+      <td>{tag.name}</td>
+      <td>
+          <button className="btn btn-primary" onClick={()=>{ savePostTag() }}>
+              Add Tag
+          </button>
+      </td>
+  </tbody>
+  )
+  };
+export default TagAndButton;
