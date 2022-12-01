@@ -25,10 +25,8 @@ export const PostDetails = ({ isMy }) => {
 
     const localUser = localStorage.getItem("userProfile")
     const userObject = JSON.parse(localUser)
-    
+
     //set all state variables inside the useEffect instead of inside this component's methods    
-
-
     useEffect(() => {
         getPost(id)
             .then(p => setPost(p));
@@ -42,16 +40,14 @@ export const PostDetails = ({ isMy }) => {
                     if (s.subscriberUserProfileId == userObject.id && s.providerUserProfileId == post.userProfileId) {
                         setSubscribed(true);
                         setFoundSubscription(s);
-                    }                    
-                        setSubscribed(true)
                     }
                 }
             }).then(() => {
-                if(foundSubscription.endDateTime != "0001-01-01T00:00:00") {
+                if (foundSubscription.endDateTime != "0001-01-01T00:00:00") {
                     setSubscribed(false);
                 }
             });
-            });
+
 
     }, [subscriptions]);
 
@@ -70,7 +66,7 @@ export const PostDetails = ({ isMy }) => {
 
     const Unsubscribe = (e) => {
         e.preventDefault();
-                   
+
         const subscription = {
             id: foundSubscription.id,
             SubscriberUserProfileId: userObject.id,
@@ -80,7 +76,7 @@ export const PostDetails = ({ isMy }) => {
 
         unSubscribe(subscription)
     }
-    
+
 
     if (!post) {
         return null;
@@ -93,18 +89,18 @@ export const PostDetails = ({ isMy }) => {
 
                 {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}
-                {!subscribed && post.userProfileId != userObject.id
-                    ? <>
-                        <span>  |  </span><button onClick={ e => Subscribe(e) }>Subscribe</button>
-                    </>
-                    : ""                
-                }
-                {subscribed && foundSubscription?.endDateTime == "0001-01-01T00:00:00" /*make sure the subscription has not already ended*/
-                    ? <>
-                        <span>  | Subscribed ✅ | </span><span><button onClick={ e => Unsubscribe(e) }>Unsubscribe</button></span>
-                    </>
-                    : ""
-                }
+                    {!subscribed && post.userProfileId != userObject.id
+                        ? <>
+                            <span>  |  </span><button onClick={e => Subscribe(e)}>Subscribe</button>
+                        </>
+                        : ""
+                    }
+                    {subscribed && foundSubscription?.endDateTime == "0001-01-01T00:00:00" /*make sure the subscription has not already ended*/
+                        ? <>
+                            <span>  | Subscribed ✅ | </span><span><button onClick={e => Unsubscribe(e)}>Unsubscribe</button></span>
+                        </>
+                        : ""
+                    }
                     {!subscribed && post.userProfileId != userObject.id
                         ? <button onClick={e => Subscribe(e)}>Subscribe</button>
                         : ""
@@ -114,17 +110,17 @@ export const PostDetails = ({ isMy }) => {
                         : ""
                     }
                 </p>
-            {/* </Link> */}
-            <p>Published: {post.publishDateTime.substring(0, 10)}</p>
-            <div>
-                Tags: {post.tags.map((t) => <p>{t.name}</p>)} 
-            </div>
-            <button onClick={(e) => {
-            navigate(`/addTag/${id}`)
-          }} style={{marginTop: '15px', width: '120px'}}
-          >Manage Tags</button>
-            <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
-            <p>{post.content}</p>
+                {/* </Link> */}
+                <p>Published: {post.publishDateTime.substring(0, 10)}</p>
+                <div>
+                    Tags: {post.tags.map((t) => <p>{t.name}</p>)}
+                </div>
+                <button onClick={(e) => {
+                    navigate(`/addTag/${id}`)
+                }} style={{ marginTop: '15px', width: '120px' }}
+                >Manage Tags</button>
+                <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
+                <p>{post.content}</p>
                 {/* </Link> */}
                 <p>Published: {post.publishDateTime.substring(0, 10)}</p>
                 <div>
