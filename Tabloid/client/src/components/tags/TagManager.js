@@ -17,14 +17,14 @@ export const deleteTag = (id) => {
     return fetch(`https://localhost:5001/api/Tag/${id}`, {
       method: "DELETE"
     })
-  }
+};
   
-  export const getById = (id) => {
+export const getById = (id) => {
     return fetch(`https://localhost:5001/api/Tag/${id}`)
     .then((res) => res.json());
-  }
+};
 
-  export const editTag = (tag) => {
+export const editTag = (tag) => {
     return fetch(`https://localhost:5001/api/Tag/${tag.id}`, {
         method: "PUT",
         headers: {
@@ -33,3 +33,16 @@ export const deleteTag = (id) => {
         body: JSON.stringify(tag),
       }).then((res) => res.json())
 };
+export const addPostTag = (post) => {
+    return fetch(`https://localhost:5001/api/posts/${post.id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(post),
+    }).then((res) => res.json());
+};
+export const GetAllPostTags = () => {
+    return fetch(`https://localhost:5001/api/PostTag`)
+    .then((res) => res.json())
+}

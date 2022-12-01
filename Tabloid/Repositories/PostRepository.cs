@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Tabloid.Models;
 using Tabloid.Repositories;
 using Tabloid.Utils;
+using System.Linq;
 
 namespace Tabloid
 {
@@ -70,24 +71,26 @@ namespace Tabloid
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT p.id, p.Title, p.Content, p.ImageLocation, p.PublishDateTime,
-                                            p.CreateDateTime, p.isApproved, p.categoryId, p.userProfileId,
-
-                                            c.name as CategoryName, u.DisplayName
-                                        FROM Post p
-                                        join category c on p.categoryId = c.id
-                                        join userProfile u on p.userProfileId = u.id
-                                        where p.id = @id";
+                    cmd.CommandText = @"SELECT p.id as PostId, p.Title, p.Content, p.ImageLocation, p.PublishDateTime, p.CreateDateTime, p.isApproved, p.categoryId, p.userProfileId, c.name as CategoryName, u.DisplayName, t.Id as TagId, t.Name
+                FROM Post p
+                left join category c on p.categoryId = c.id
+                left join userProfile u on p.userProfileId = u.id
+                left join PostTag pt on p.Id = pt.PostId
+                left join Tag t on pt.TagId = t.Id
+                where p.id = @id";
                     cmd.Parameters.AddWithValue("id", id);
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     Post post = null;
 
-                    if (reader.Read())
+                    while (reader.Read())
                     {
+                        if(post == null)
+                        {
+
                         post = new Post()
                         {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Id = reader.GetInt32(reader.GetOrdinal("PostId")),
                             Title = reader.GetString(reader.GetOrdinal("Title")),
                             Content = reader.GetString(reader.GetOrdinal("Content")),
                             ImageLocation = reader.GetString(reader.GetOrdinal("ImageLocation")),
@@ -101,6 +104,18 @@ namespace Tabloid
                         };
                         post.UserProfile.DisplayName = reader.GetString(reader.GetOrdinal("DisplayName"));
                         post.Category.Name = reader.GetString(reader.GetOrdinal("CategoryName"));
+                        }
+
+                        if(DbUtils.IsNotDbNull(reader, "TagId") && !post.Tags.Any(x => x.Id == DbUtils.GetNullableInt(reader, "TagId")))
+                        {
+                            post.Tags.Add(new Tag
+                            {
+                                Id = DbUtils.GetInt(reader, "TagId"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            });
+                        }
+
+
                     }
 
                     reader.Close();
