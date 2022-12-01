@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Button, Card, CardBody, CardLink, CardTitle, Form, Input, Label, FormGroup, ListGroup, ListGroupItem, Table } from "reactstrap";
+import { useParams } from "react-router-dom";
+import { CardLink, Table } from "reactstrap";
 import { getPost } from "../../Managers/PostManager";
 
 import { getAllTags } from "./TagManager";

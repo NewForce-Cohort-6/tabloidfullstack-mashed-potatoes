@@ -1,23 +1,13 @@
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate,  } from "react-router-dom";
 import { addPostTag } from "./TagManager";
 
 
 export const TagAndButton = ({ post, tag}) => {
 
-    // const [postTag, setPostTag] = useState({
-    //     postId: id,
-    //     tagId: tag.id
-    // });
-
-    // useEffect(() => {
-    //     getAllTags
-    // }, [])
-
+    
     const navigate = useNavigate();
-    // const { id } = useParams();
+    
 
     //Conditionally render an add button 
     //but also have button both set state and save the tag?
