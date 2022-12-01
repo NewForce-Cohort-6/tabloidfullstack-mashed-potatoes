@@ -83,7 +83,7 @@ export const PostDetails = ({ isMy }) => {
                 Tags: {post.tags.map((t) => <p>{t.name}</p>)} 
             </div>
             <button onClick={(e) => {
-            navigate('/addTag')
+            navigate(`/addTag/${id}`)
           }} style={{marginTop: '15px', width: '120px'}}
           >Manage Tags</button>
             <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />

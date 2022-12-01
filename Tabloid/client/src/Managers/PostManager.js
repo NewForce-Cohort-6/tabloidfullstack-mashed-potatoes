@@ -13,9 +13,10 @@ export const getAllPostsWithComments = () => {
 };
 
 export const getPost = (id) => {
-    return fetch(`/api/Post/${id}`)
+  let post = fetch(`/api/Post/${id}`)
       .then((res) => res.json());
-};
+return post};
+
 
 export const getUserPostsById = (id) => {
   return fetch(`/api/post/getUserPostsById?id=${id}`)

@@ -1,45 +1,46 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-// import { useParams } from "react-router-dom";
-import { getPost } from "../../Managers/PostManager";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { addPostTag } from "./TagManager";
 
 
+export const TagAndButton = ({ post, tag}) => {
 
+    // const [postTag, setPostTag] = useState({
+    //     postId: id,
+    //     tagId: tag.id
+    // });
 
-const Tag = ({tag}) => {
+    // useEffect(() => {
+    //     getAllTags
+    // }, [])
 
-  // const {id} = useParams();
-  const navigate = useNavigate();
-    return (
-        <div style={{display:'flex', letterSpacing: '.5px', alignItems: 'center', margin: '45px', borderBottom: '1px solid blue', height: '30px', width: '500px', justifyContent: 'space-between'}}>
-            <h5 style={{ marginRight: '15px' }}>{tag.name}</h5>
+    const navigate = useNavigate();
+    // const { id } = useParams();
+
+    //Conditionally render an add button 
+    //but also have button both set state and save the tag?
+    const savePostTag = () => {
+        // event.preventDefault()
+        const newPostTag = {
+            postId: post.id,
+            tagId: tag.id
+        }
+        addPostTag(newPostTag).then((t) => {
+          navigate(`/posts/${post.id}`)
             
-        </div>
-    )
-}
-export const TagButton = () => {
-  const navigate = useNavigate();
-const savePostTag = (tag, id) => {
-  const newChosenTag = {
-      postId: id,
-      tagId: tag.id
+        });
+    }
+    return (
+      <tbody>
+      <td>{tag.name}</td>
+      <td>
+          <button className="btn btn-primary" onClick={()=>{ savePostTag() }}>
+              Add Tag
+          </button>
+      </td>
+  </tbody>
+  )
   };
-  addPostTag(newChosenTag).then((t) => {
-      navigate(`/posts/${id}`)
-      
-  })
-
-  return fetch(`https://localhost:5001/api/PostTag/${id}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(tag)
- 
-  }).then(getPost)
-     
-
-};};
-
-export default Tag;
+export default TagAndButton;
