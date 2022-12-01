@@ -18,7 +18,6 @@ export const AddComment = ({isMy}) => {
         userProfileId: currentUser.id,
         postId: id,
     })
-
     
     const handleSaveNewComment = (event) => {
         event.preventDefault()
