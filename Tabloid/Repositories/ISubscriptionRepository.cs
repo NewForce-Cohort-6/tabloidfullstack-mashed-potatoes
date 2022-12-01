@@ -8,8 +8,8 @@ namespace Tabloid
         public List<Subscription> GetAll();
         //public Post GetById(int id);
         //public List<Post> GetByUser(int userId);
-        public void Insert(Subscription sub);
-        //public void Update(Post post);
-        //public void Delete(int id);
+        public void Insert(Subscription subscription);
+        public void Update(Subscription subscription);
+        public void Delete(int id);
     }
 }

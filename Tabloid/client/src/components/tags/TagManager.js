@@ -33,13 +33,13 @@ export const editTag = (tag) => {
         body: JSON.stringify(tag),
       }).then((res) => res.json())
 };
-export const addPostTag = (post) => {
-    return fetch(`https://localhost:5001/api/posts/${post.id}`, {
+export const addPostTag = (singlepost) => {
+    return fetch(`https://localhost:5001/api/PostTag`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(post),
+        body: JSON.stringify(singlepost),
     }).then((res) => res.json());
 };
 export const GetAllPostTags = () => {

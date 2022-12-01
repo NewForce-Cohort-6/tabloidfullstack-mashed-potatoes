@@ -47,6 +47,7 @@ export default function ApplicationViews() {
       <Route path="/editCategory/:id" element={<CategoryEdit />} />
       <Route path="/myposts/:id/comments" element={<PostComments isMy={true} />} />
       <Route path="/posts/:id/comments" element={<PostComments isMy={false} />} />
+      <Route path="/addtag/:id" element={<PostTag />} />
       <Route path ="/myposts/:id/addComment" element={<AddComment isMy={true}/>} />
       <Route path ="/posts/:id/addComment" element={<AddComment isMy={false}/>} />
       <Route path="/addtag" element={<PostTag />} />

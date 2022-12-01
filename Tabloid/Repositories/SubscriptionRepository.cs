@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Tabloid.Models;
 using Tabloid.Repositories;
 using Tabloid.Utils;
@@ -70,5 +71,47 @@ namespace Tabloid
             }
         }
 
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE FROM Subscription WHERE id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Update(Subscription subscription)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE Subscription
+                                                SET SubscriberUserProfileId = @SubscriberUserProfileId, 
+                                                    ProviderUserProfileId = @ProviderUserProfileId, 
+                                                    BeginDateTime = @BeginDateTime,
+                                                    EndDateTime = @EndDateTime
+                                                WHERE id  = @id"
+                        ;
+
+                        cmd.Parameters.AddWithValue("@id", subscription.Id);
+                        cmd.Parameters.AddWithValue("@SubscriberUserProfileId", subscription.SubscriberUserProfileId);
+                        cmd.Parameters.AddWithValue("@ProviderUserProfileId", subscription.ProviderUserProfileId);
+                        cmd.Parameters.AddWithValue("@BeginDateTime", subscription.BeginDateTime);
+                        cmd.Parameters.AddWithValue("@EndDateTime", DateTime.Now);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
     }
 }
