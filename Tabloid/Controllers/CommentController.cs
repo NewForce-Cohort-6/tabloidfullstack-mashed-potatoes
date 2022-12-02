@@ -36,22 +36,32 @@ namespace Tabloid.Controllers
             return Ok(comment);
         }
 
-        // POST api/<CommentsController>
+        // POST api/<CommentController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post(Comment newComment)
         {
+            _commentRepo.AddComment(newComment);
+            return CreatedAtAction("Get", new { id = newComment.Id }, newComment);
         }
 
-        // PUT api/<CommentsController>/5
+        // PUT api/<CommentController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, Comment comment)
         {
+            if (id != comment.Id)
+            {
+                return BadRequest();
+            }
+            _commentRepo.EditComment(comment);
+            return NoContent();
         }
 
-        // DELETE api/<CommentsController>/5
+        // DELETE api/<CommentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _commentRepo.DeleteComment(id);
+            return NoContent();
         }
     }
 }

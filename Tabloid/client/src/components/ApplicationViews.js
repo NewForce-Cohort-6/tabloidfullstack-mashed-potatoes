@@ -19,13 +19,17 @@ import CategoryEdit from "./categories/CategoryEdit";
 import UserProfileDetails from "./userProfiles/UserDetails";
 import PostEdit from "./posts/EditPost";
 import { PostComments } from "./comments/PostComments";
+import { AddComment } from "./comments/AddComment";
+import { CommentDelete } from "./comments/CommentDelete";
+import { CommentEdit } from "./comments/CommentEdit";
+
 
 
 export default function ApplicationViews() {
 
   return (
     <Routes>
-
+ 
       <Route path="/" element={<Hello />} />
       <Route path="/tag" element={<Tag />} />
       <Route path="/createTag" element={<TagForm />} />
@@ -43,9 +47,14 @@ export default function ApplicationViews() {
       <Route path="/createCategory" element={<CategoryForm />} />
       <Route path="/deleteCategory/:id" element={<CategoryDelete />} />
       <Route path="/editCategory/:id" element={<CategoryEdit />} />
-      <Route path="/my-posts/:id/comments" element={<PostComments isMy={true} />} />
+      <Route path="/myposts/:id/comments" element={<PostComments isMy={true} />} />
       <Route path="/posts/:id/comments" element={<PostComments isMy={false} />} />
       <Route path="/addtag/:id" element={<PostTag />} />
+      <Route path ="/myposts/:id/addComment" element={<AddComment isMy={true}/>} />
+      <Route path ="/posts/:id/addComment" element={<AddComment isMy={false}/>} />
+      <Route path="/commentDelete/:id" element={<CommentDelete />} />
+      <Route path ="/commentEdit/:id" element={<CommentEdit />} />
+      <Route path="/addtag" element={<PostTag />} />
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
 
     </Routes>

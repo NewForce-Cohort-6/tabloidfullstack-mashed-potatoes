@@ -1,7 +1,8 @@
   export const getCurrentUser = () => {
-    const currentUser = localStorage.getItem("gifterUser");
+    const currentUser = localStorage.getItem("userProfile");
+    const userObject = JSON.parse(currentUser)
 
-    return currentUser;
+    return userObject;
   };
 
 
