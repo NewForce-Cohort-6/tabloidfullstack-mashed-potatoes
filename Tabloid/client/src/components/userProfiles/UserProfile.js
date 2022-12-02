@@ -7,7 +7,7 @@ const UserProfile = ({user, get}) => {
     const navigate = useNavigate();
 
     //Perform a patch to update isActive state when button is clicked
-console.log(user)
+    //console.log(user)
     const handleActive = () => {
 
         //object to be updated
