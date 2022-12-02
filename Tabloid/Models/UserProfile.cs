@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -31,6 +33,9 @@ namespace Tabloid.Models
         [DataType(DataType.Url)]
         [MaxLength(255)]
         public string ImageLocation { get; set; }
+
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
 
         [Required]
         public int UserTypeId { get; set; }

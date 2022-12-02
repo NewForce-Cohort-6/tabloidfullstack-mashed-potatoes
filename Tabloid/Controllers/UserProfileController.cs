@@ -1,5 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Tabloid.Models;
 using Tabloid.Repositories;
 
@@ -11,10 +17,12 @@ namespace Tabloid.Controllers
     {
         //private readonly IUserProfileRepository _userProfileRepository;
         private readonly IUserRepository _userRepository;
-        public UserProfileController( IUserRepository userRepository)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public UserProfileController( IUserRepository userRepository, IWebHostEnvironment hostEnvironment)
         {
             //_userProfileRepository = userProfileRepository;
             _userRepository = userRepository;
+            _hostEnvironment = hostEnvironment;
         }
 
         [HttpGet("GetByEmail")]
@@ -58,8 +66,12 @@ namespace Tabloid.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, UserProfile userProfile)
+        public async Task<ActionResult<UserProfile>> Put(int id, [FromForm]UserProfile userProfile)
+            //if the second argument of this method has [FromForm] - do all of the properties of userProfile have to be in a FormData object?
+            //if so, should I unpack them into a regular object here to send to the update method on line 79?
+            //error is 404 Bad Request rn
         {
+            userProfile.ImageLocation = await SaveImage(userProfile.ImageFile);
             if (id != userProfile.Id)
             {
                 return BadRequest();
@@ -67,6 +79,21 @@ namespace Tabloid.Controllers
 
             _userRepository.Update(userProfile);
             return NoContent();
+        }
+
+        [NonAction]
+        public async Task<string> SaveImage(IFormFile imageFile)
+        {
+            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(" ","-");
+            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "images", imageName);
+
+            using(var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+
+            return imageName;
         }
 
     }
