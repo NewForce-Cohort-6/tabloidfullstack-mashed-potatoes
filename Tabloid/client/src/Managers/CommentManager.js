@@ -26,3 +26,14 @@ export const deleteComment = (id) => {
         method: "DELETE"
     })
 };
+
+export const editComment = (comment) => {
+    return fetch(`${baseUrl}/Comment/${comment.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(comment)
+    })
+    .then(getAllComments)  
+};

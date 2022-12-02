@@ -45,16 +45,16 @@ namespace Tabloid.Controllers
         }
 
         // PUT api/<CommentController>/5
-        //[HttpPut("{id}")]
-        //public IActionResult Put(int id, Comment comment)
-        //{
-        //    if (id != comment.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-        //    _commentRepo.EditComment(comment);
-        //    return NoContent();
-        //}
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Comment comment)
+        {
+            if (id != comment.Id)
+            {
+                return BadRequest();
+            }
+            _commentRepo.EditComment(comment);
+            return NoContent();
+        }
 
         // DELETE api/<CommentController>/5
         [HttpDelete("{id}")]
