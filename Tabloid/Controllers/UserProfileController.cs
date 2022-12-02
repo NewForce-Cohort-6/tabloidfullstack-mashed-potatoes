@@ -1,5 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 using Tabloid.Models;
 using Tabloid.Repositories;
 
@@ -11,10 +19,12 @@ namespace Tabloid.Controllers
     {
         //private readonly IUserProfileRepository _userProfileRepository;
         private readonly IUserRepository _userRepository;
-        public UserProfileController( IUserRepository userRepository)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public UserProfileController( IUserRepository userRepository, IWebHostEnvironment hostEnvironment)
         {
             //_userProfileRepository = userProfileRepository;
             _userRepository = userRepository;
+            _hostEnvironment = hostEnvironment;
         }
 
         [HttpGet("GetByEmail")]
@@ -56,5 +66,34 @@ namespace Tabloid.Controllers
             }
             return Ok(user);
         }
+
+        [HttpPut("{id}")]
+        //[Consumes("multipart/form-data")]
+        public IActionResult Put(int id, UserProfile userProfile)
+        {
+            if (id != userProfile.Id)
+            {
+                return BadRequest();
+            }
+
+            _userRepository.Update(userProfile);
+            return NoContent();
+        }
+
+        //[NonAction]
+        //public async Task<string> SaveImage(IFormFile imageFile)
+        //{
+        //    string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(" ","-");
+        //    imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+        //    var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "images", imageName);
+
+        //    using(var fileStream = new FileStream(imagePath, FileMode.Create))
+        //    {
+        //        await imageFile.CopyToAsync(fileStream);
+        //    }
+
+        //    return imageName;
+        //}
+
     }
 }

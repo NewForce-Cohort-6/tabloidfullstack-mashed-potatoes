@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using Tabloid.Models;
 using Tabloid.Utils;
@@ -90,7 +92,7 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                            Select u.Id, u.FirstName, u.LastName, u.DisplayName, u.UserTypeId,
+                            Select u.Id, u.FirstName, u.LastName, u.DisplayName, u.ImageLocation, u.UserTypeId,
                             ut.Id, ut.Name
                             From UserProfile u
                                 Left Join UserType ut ON u.UserTypeId = ut.Id
@@ -107,6 +109,7 @@ namespace Tabloid.Repositories
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             LastName = DbUtils.GetString(reader, "LastName"),
                             DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                             UserType = new UserType()
                             {
@@ -152,7 +155,7 @@ namespace Tabloid.Repositories
                             Email = DbUtils.GetString(reader, "Email"),
                             CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                            //IsActive = DbUtils.GetBoolean(reader, "IsActive"),
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "Id"),
@@ -164,6 +167,27 @@ namespace Tabloid.Repositories
                     reader.Close();
 
                     return user;
+                }
+            }
+        }
+
+        public void Update(UserProfile userProfile)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = @"UPDATE UserProfile
+                                                SET ImageLocation = @imageLocation
+                                                WHERE id  = @id";
+
+                        cmd.Parameters.AddWithValue("@id", userProfile.Id);
+                        cmd.Parameters.AddWithValue("@imageLocation", userProfile.ImageLocation);
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
         }
