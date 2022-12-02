@@ -35,7 +35,7 @@ namespace Tabloid.Models
         public string ImageLocation { get; set; }
 
         [NotMapped]
-        public Object ImageFile { get; set; }
+        public IFormFile ImageFile { get; set; }
 
         //[Required]
         public int UserTypeId { get; set; }

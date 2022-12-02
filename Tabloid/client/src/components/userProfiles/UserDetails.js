@@ -41,15 +41,15 @@ const UserProfileDetails = () => {
         console.log(image.files[0].name);
 
         const formData = new FormData();
-        /* formData.append("id", user.id);
-        formData.append("firstName", user.firstName);
-        formData.append("lastName", user.lastName);
-        formData.append("displayName", user.displayName);
-        formData.append("email", user.email);
-        formData.append("createDateTime", user.createDateTime);
-        formData.append("userTypeId", user.userTypeId); */
-        formData.append("imageLocation", ""); // imageName
-        formData.append("imageFile", image.files[0]);
+        formData.append("userProfile", user.id);
+        formData.append("userProfile", user.firstName);
+        formData.append("userProfile", user.lastName);
+        formData.append("userProfile", user.displayName);
+        formData.append("userProfile", user.email);
+        formData.append("userProfile", user.createDateTime);
+        formData.append("userProfile", user.userTypeId);
+        formData.append("userProfile", ""); // imageName
+        formData.append("userProfile", image.files[0]);
         
         console.log(formData);
         console.log(formData.get("imageFile"));
@@ -67,7 +67,7 @@ const UserProfileDetails = () => {
             UserTypeId: user.userTypeId
         }
 
-        updateUser(userProfile)
+        updateUser(formData)
             .then(() => {
                 getUserById(id).then(setUser)
                 document.getElementById('myFile').value = ""; //reset upload image form
