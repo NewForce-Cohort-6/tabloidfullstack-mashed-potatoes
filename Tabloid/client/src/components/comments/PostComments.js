@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Card, CardBody, CardTitle, ListGroup, ListGroupItem } from "reactstrap";
+import { Card, CardBody, CardLink, CardTitle, ListGroup, ListGroupItem } from "reactstrap";
 import { getAllComments } from "../../Managers/CommentManager";
 import { getPost } from "../../Managers/PostManager";
 import { getCurrentUser } from "../../Managers/UserProfileManager";
@@ -28,13 +28,13 @@ export const PostComments = ({ isMy }) => {
         <div className="m-5">
             <h1>{post.title}</h1>
             {isMy ?
-                <button type="submit" className="btn btn-primary mt-2" onClick={() => navigate(`/posts/${id}`)} >
-                    Back To Post
-                </button>
+                <CardLink href={`/my-posts/${id}`}>
+                    Go back to post
+                </CardLink>
                 :
-                <button type="submit" className="btn btn-primary mt-2" onClick={() => navigate(`/myposts/${id}`)} >
-                    Back To Post
-                </button>
+                <CardLink href={`/posts/${id}`}>
+                    Go back to post
+                </CardLink>
             }
             <section>
                 {
@@ -59,11 +59,11 @@ export const PostComments = ({ isMy }) => {
                                 </ListGroup>
 
                                 {currentUser.id === c.userProfileId
-                    ?<div>
-                    <button className="btn btn-danger ml-3 mb-3" onClick={() => navigate(`/CommentDelete/${c.id}`)}>Delete</button> 
-                    {/* <button className="btn btn-danger ml-3 mb-3" onClick={() => navigate(`/commentEdit/${c.id}`)}>Edit</button>  */}
-                    </div>
-                    :""  }
+                                    ? <div>
+                                        <button className="btn btn-danger ml-3 mb-3" onClick={() => navigate(`/CommentDelete/${c.id}`)}>Delete</button>
+                                        {/* <button className="btn btn-danger ml-3 mb-3" onClick={() => navigate(`/commentEdit/${c.id}`)}>Edit</button>  */}
+                                    </div>
+                                    : ""}
 
                             </Card> </>
                         ))
