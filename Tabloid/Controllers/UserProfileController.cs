@@ -66,12 +66,14 @@ namespace Tabloid.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserProfile>> Put(int id, [FromForm]UserProfile userProfile)
+        public async Task<ActionResult<UserProfile>> Put(int id, UserProfile userProfile)
             //if the second argument of this method has [FromForm] - do all of the properties of userProfile have to be in a FormData object?
             //if so, should I unpack them into a regular object here to send to the update method on line 79?
             //error is 404 Bad Request rn
         {
-            userProfile.ImageLocation = await SaveImage(userProfile.ImageFile);
+            //using var stream = new MemoryStream(userProfile.ImageFile.ReadAllBytes(userProfile.ImageFile).ToArray());
+            //var formFile = new FormFile(stream, 0, stream.Length, "streamFile", file.Split(@"\").Last());
+            //userProfile.ImageLocation = await SaveImage(userProfile.ImageFile);
             if (id != userProfile.Id)
             {
                 return BadRequest();

@@ -50,6 +50,18 @@ export const getUserById = (id) => {
 };
 
 export const updateUser = (userProfile) => {
+  const file = userProfile.ImageFile;
+  const fileObject = {
+    'lastModified': file.lastModified,
+    'lastModifiedDate': file.lastModifiedDate,
+    'name': file.name,
+    'size': file.size,
+    'type': file.type
+  };  
+  userProfile.ImageFile = fileObject
+
+  console.log(JSON.stringify(userProfile))
+
   return fetch(`/api/UserProfile/${userProfile.id}`, {
       method: "PUT",
       headers: {
