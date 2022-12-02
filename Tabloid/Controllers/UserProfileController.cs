@@ -69,33 +69,31 @@ namespace Tabloid.Controllers
 
         [HttpPut("{id}")]
         //[Consumes("multipart/form-data")]
-        public async Task<ActionResult<UserProfile>> Put(int id, [FromForm]MultipartFormDataContent userProfile)
+        public IActionResult Put(int id, UserProfile userProfile)
         {
-            string data = userProfile.ToString();
-            //userProfile.ImageLocation = await SaveImage(userProfile.ImageFile.FileName);
-            //if (id != userProfile.Id)
-            //{
-            //    return BadRequest();
-            //}
+            if (id != userProfile.Id)
+            {
+                return BadRequest();
+            }
 
-            //_userRepository.Update(userProfile);
+            _userRepository.Update(userProfile);
             return NoContent();
         }
 
-        [NonAction]
-        public async Task<string> SaveImage(IFormFile imageFile)
-        {
-            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(" ","-");
-            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
-            var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "images", imageName);
+        //[NonAction]
+        //public async Task<string> SaveImage(IFormFile imageFile)
+        //{
+        //    string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(" ","-");
+        //    imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+        //    var imagePath = Path.Combine(_hostEnvironment.ContentRootPath, "images", imageName);
 
-            using(var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
+        //    using(var fileStream = new FileStream(imagePath, FileMode.Create))
+        //    {
+        //        await imageFile.CopyToAsync(fileStream);
+        //    }
 
-            return imageName;
-        }
+        //    return imageName;
+        //}
 
     }
 }

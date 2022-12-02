@@ -61,14 +61,13 @@ export const updateUser = (userProfile) => {
   userProfile.ImageFile = fileObject
 
   console.log(JSON.stringify(userProfile)) */
-  console.log(userProfile.getAll("userProfile"));
 
-  return fetch(`/api/UserProfile/${userProfile.getAll("userProfile")[0]}`, {
+  return fetch(`/api/UserProfile/${userProfile.id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": undefined
+        "Content-Type": "application/json"
       },
-      body: userProfile
+      body: JSON.stringify(userProfile)
     })
 };
 
