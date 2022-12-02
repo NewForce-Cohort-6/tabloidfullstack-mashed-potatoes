@@ -36,10 +36,12 @@ namespace Tabloid.Controllers
             return Ok(comment);
         }
 
-        // POST api/<CommentsController>
+        // POST api/<CommentController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post(Comment newComment)
         {
+            _commentRepo.AddComment(newComment);
+            return CreatedAtAction("Get", new { id = newComment.Id }, newComment);
         }
 
         // PUT api/<CommentsController>/5

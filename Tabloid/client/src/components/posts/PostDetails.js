@@ -25,14 +25,14 @@ export const PostDetails = ({ isMy }) => {
 
     const localUser = localStorage.getItem("userProfile")
     const userObject = JSON.parse(localUser)
-    
+
     //set all state variables inside the useEffect instead of inside this component's methods    
     useEffect(() => {
         getPost(id)
             .then(p => setPost(p));
 
         getAllTags(id).then(setTag);
-        
+
         getAllSubscriptions()
             .then(setSubscriptions)
             .then(() => {
@@ -40,16 +40,17 @@ export const PostDetails = ({ isMy }) => {
                     if (s.subscriberUserProfileId == userObject.id && s.providerUserProfileId == post.userProfileId) {
                         setSubscribed(true);
                         setFoundSubscription(s);
-                    }                    
+                    }
                 }
             }).then(() => {
-                if(foundSubscription.endDateTime != "0001-01-01T00:00:00") {
+                if (foundSubscription.endDateTime != "0001-01-01T00:00:00") {
                     setSubscribed(false);
                 }
             });
 
+
     }, [subscriptions]);
-    
+
 
     const Subscribe = (e) => {
         e.preventDefault();
@@ -65,7 +66,7 @@ export const PostDetails = ({ isMy }) => {
 
     const Unsubscribe = (e) => {
         e.preventDefault();
-                   
+
         const subscription = {
             id: foundSubscription.id,
             SubscriberUserProfileId: userObject.id,
@@ -75,76 +76,86 @@ export const PostDetails = ({ isMy }) => {
 
         unSubscribe(subscription)
     }
-    
+
+
     if (!post) {
         return null;
     }
 
     return (
-    <Card className="m-4">
-        <CardBody>
-            <strong>{post.title}</strong>
-            
-            {/* <Link to={`/posts/${post.id}`}> */}
+        <Card className="m-4">
+            <CardBody>
+                <strong>{post.title}</strong>
+
+                {/* <Link to={`/posts/${post.id}`}> */}
                 <p>Author: {post.userProfile.displayName}
-                {!subscribed && post.userProfileId != userObject.id
+                    {!subscribed && post.userProfileId != userObject.id
+                        ? <>
+                            <span>  |  </span><button onClick={e => Subscribe(e)}>Subscribe</button>
+                        </>
+                        : ""
+                    }
+                    {subscribed && foundSubscription?.endDateTime == "0001-01-01T00:00:00" /*make sure the subscription has not already ended*/
+                        ? <>
+                            <span>  | Subscribed ✅ | </span><span><button onClick={e => Unsubscribe(e)}>Unsubscribe</button></span>
+                        </>
+                        : ""
+                    }
+
+                </p>
+                {/* </Link> */}
+                <p>Published: {post.publishDateTime.substring(0, 10)}</p>
+                <div>
+                    Tags: {post.tags.map((t) => <p>{t.name}</p>)}
+                </div>
+                <button onClick={(e) => {
+                    navigate(`/addTag/${id}`)
+                }} style={{ marginTop: '15px', width: '120px' }}
+                >Manage Tags</button>
+                <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
+                <p>{post.content}</p>
+
+                {/* making sure a user only has access to the delete button if they were the one who created it */}
+                {userObject.id == post.userProfileId
                     ? <>
-                        <span>  |  </span><button onClick={ e => Subscribe(e) }>Subscribe</button>
-                    </>
-                    : ""                
-                }
-                {subscribed && foundSubscription?.endDateTime == "0001-01-01T00:00:00" /*make sure the subscription has not already ended*/
-                    ? <>
-                        <span>  | Subscribed ✅ | </span><span><button onClick={ e => Unsubscribe(e) }>Unsubscribe</button></span>
+                        <button onClick={e => navigate(`/deletePost/${id}`)}>Delete</button>
+                        <button onClick={e => navigate(`/editPost/${id}`)}>Edit</button>
                     </>
                     : ""
                 }
-                </p>
-            {/* </Link> */}
-            <p>Published: {post.publishDateTime.substring(0, 10)}</p>
-            <div>
-                Tags: {post.tags.map((t) => <p>{t.name}</p>)} 
-            </div>
-            <button onClick={(e) => {
-            navigate(`/addTag/${id}`)
-          }} style={{marginTop: '15px', width: '120px'}}
-          >Manage Tags</button>
-            <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
-            <p>{post.content}</p>
-
-            {/* making sure a user only has access to the delete button if they were the one who created it */}
-            {userObject.id == post.userProfileId 
-                ? <>
-                    <button onClick={ e => navigate(`/deletePost/${id}`) }>Delete</button>
-                    <button onClick={ e => navigate(`/editPost/${id}`) }>Edit</button>
-                  </>
-                : ""
-            }
-            {/* {post?.comments?.map(comment => 
+                {/* {post?.comments?.map(comment => 
                 <p key={comment?.id} className="text-left px-2">Comment: {comment?.content}</p>)} */}
-        
-        </CardBody>
-        <CardBody>
-        {isMy ?
-                        <CardLink href="/my-posts">
-                            Go back to list
-                        </CardLink>
-                        :
-                        <CardLink href="/posts">
-                            Go back to list
-                        </CardLink>
-                    }
-                    {isMy ?
-                        <CardLink href={`/my-posts/${id}/comments`}>
-                            View Comments
-                        </CardLink>
-                        :
-                        <CardLink href={`/posts/${id}/comments`}>
-                            View Comments
-                        </CardLink>
-                    }
-        </CardBody>
 
-    </Card>
+            </CardBody>
+            <CardBody>
+                {isMy ?
+                    <CardLink href="/posts">
+                        Go back to list
+                    </CardLink>
+                    :
+                    <CardLink href="/myposts">
+                        Go back to list
+                    </CardLink>
+                }
+                {isMy ?
+                    <CardLink href={`/posts/${id}/comments`}>
+                        View Comments
+                    </CardLink>
+                    :
+                    <CardLink href={`/myposts/${id}/comments`}>
+                        View Comments
+                    </CardLink>
+                }
+                {isMy ?
+                    <CardLink href={`/posts/${id}/addComment`}>
+                        Add Comment
+                    </CardLink>
+                    :
+                    <CardLink href={`/myposts/${id}/addComment`}>
+                        Add Comment
+                    </CardLink>
+                }
+            </CardBody>
+        </Card>
     );
 };

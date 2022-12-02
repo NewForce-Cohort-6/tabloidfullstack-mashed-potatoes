@@ -6,15 +6,15 @@ export const getAllComments = ()=> {
     .then((res) => res.json()) 
 }
 
-// export const addComment = (singleComment) => {
-//     return fetch(`${baseUrl}/Comment`, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(singleComment),
-//     });
-// };
+export const addComment = (singleComment) => {
+    return fetch(`${baseUrl}/Comment`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(singleComment),
+    });
+};
 
 export const getCommentById = (id)=> {
     return fetch(`${baseUrl}/Comment/${id}`)
