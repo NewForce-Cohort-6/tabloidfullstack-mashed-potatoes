@@ -28,11 +28,11 @@ export const PostComments = ({ isMy }) => {
         <div className="m-5">
             <h1>{post.title}</h1>
             {isMy ?
-                <CardLink href={`/my-posts/${id}`}>
+                <CardLink href={`/posts/${id}`}>
                     Go back to post
                 </CardLink>
                 :
-                <CardLink href={`/posts/${id}`}>
+                <CardLink href={`/myposts/${id}`}>
                     Go back to post
                 </CardLink>
             }
