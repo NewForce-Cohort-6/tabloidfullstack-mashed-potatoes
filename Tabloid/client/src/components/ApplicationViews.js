@@ -20,6 +20,7 @@ import UserProfileDetails from "./userProfiles/UserDetails";
 import PostEdit from "./posts/EditPost";
 import { PostComments } from "./comments/PostComments";
 import { AddComment } from "./comments/AddComment";
+import { CommentDelete } from "./comments/CommentDelete";
 
 
 
@@ -50,6 +51,7 @@ export default function ApplicationViews() {
       <Route path="/addtag/:id" element={<PostTag />} />
       <Route path ="/myposts/:id/addComment" element={<AddComment isMy={true}/>} />
       <Route path ="/posts/:id/addComment" element={<AddComment isMy={false}/>} />
+      <Route path="/commentDelete/:id" element={<CommentDelete />} />
       <Route path="/addtag" element={<PostTag />} />
       <Route path="*" element={<p>Whoops, nothing here...</p>} />
 

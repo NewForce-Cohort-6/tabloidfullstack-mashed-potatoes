@@ -20,3 +20,9 @@ export const getCommentById = (id)=> {
     return fetch(`${baseUrl}/Comment/${id}`)
         .then((res) => res.json())
 };
+
+export const deleteComment = (id) => {
+    return fetch(`${baseUrl}/Comment/${id}`, {
+        method: "DELETE"
+    })
+};

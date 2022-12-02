@@ -44,16 +44,24 @@ namespace Tabloid.Controllers
             return CreatedAtAction("Get", new { id = newComment.Id }, newComment);
         }
 
-        // PUT api/<CommentsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        // PUT api/<CommentController>/5
+        //[HttpPut("{id}")]
+        //public IActionResult Put(int id, Comment comment)
+        //{
+        //    if (id != comment.Id)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    _commentRepo.EditComment(comment);
+        //    return NoContent();
+        //}
 
-        // DELETE api/<CommentsController>/5
+        // DELETE api/<CommentController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            _commentRepo.DeleteComment(id);
+            return NoContent();
         }
     }
 }
