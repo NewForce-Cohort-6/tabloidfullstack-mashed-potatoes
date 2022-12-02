@@ -28,7 +28,7 @@ export const PostComments = ({ isMy }) => {
         <div className="m-5">
             <h1>{post.title}</h1>
             {isMy ?
-                <CardLink href={`/my-posts/${id}`}>
+                <CardLink href={`/posts/${id}`}>
                     Go back to post
                 </CardLink>
                 :
@@ -61,10 +61,9 @@ export const PostComments = ({ isMy }) => {
                                 {currentUser.id === c.userProfileId
                                     ? <div>
                                         <button className="btn btn-danger ml-3 mb-3" onClick={() => navigate(`/CommentDelete/${c.id}`)}>Delete</button>
-                                        <button className="btn btn-danger ml-3 mb-3" onClick={() => navigate(`/commentEdit/${c.id}`)}>Edit</button> 
+                                        <button className="btn btn-danger ml-3 mb-3" onClick={() => navigate(`/commentEdit/${c.id}`)}>Edit</button>
                                     </div>
                                     : ""}
-
                             </Card> </>
                         ))
                         : <h4>"No Comments"</h4>
