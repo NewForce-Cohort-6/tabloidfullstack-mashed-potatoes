@@ -101,14 +101,7 @@ export const PostDetails = ({ isMy }) => {
                         </>
                         : ""
                     }
-                    {!subscribed && post.userProfileId != userObject.id
-                        ? <button onClick={e => Subscribe(e)}>Subscribe</button>
-                        : ""
-                    }
-                    {subscribed
-                        ? <span>  | Subscribed ✅</span>
-                        : ""
-                    }
+
                 </p>
                 {/* </Link> */}
                 <p>Published: {post.publishDateTime.substring(0, 10)}</p>
@@ -117,17 +110,6 @@ export const PostDetails = ({ isMy }) => {
                 </div>
                 <button onClick={(e) => {
                     navigate(`/addTag/${id}`)
-                }} style={{ marginTop: '15px', width: '120px' }}
-                >Manage Tags</button>
-                <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
-                <p>{post.content}</p>
-                {/* </Link> */}
-                <p>Published: {post.publishDateTime.substring(0, 10)}</p>
-                <div>
-                    Tags: {post.tags.map((t) => <p>{t.name}</p>)}
-                </div>
-                <button onClick={(e) => {
-                    navigate('/addTag')
                 }} style={{ marginTop: '15px', width: '120px' }}
                 >Manage Tags</button>
                 <CardImg top src={post.imageLocation} alt={post.title} onError={handleBrokenImage} />
